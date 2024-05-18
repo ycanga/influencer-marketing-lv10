@@ -115,6 +115,12 @@
                         <!-- /Logo -->
                         <h4 class="mb-2">Welcome to Sneat! 👋</h4>
 
+                        @if(session('error'))
+                          <div class="alert alert-danger">
+                            {{ session('error') }}
+                          </div>
+                        @endif
+
                         @if (session('validation'))
                             @foreach (array_reverse(json_decode(session('validation'), true)) as $error)
                                 <div class=" position-fixed bottom-0 end-0 p-3" style="z-index: 11">

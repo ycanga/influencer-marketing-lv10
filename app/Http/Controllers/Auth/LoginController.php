@@ -22,7 +22,7 @@ class LoginController extends Controller
               return redirect()->route('home');
           } else {
               // Oturum açma başarısız olduğunda geri dönerken hata mesajını da gönderebilirsiniz.
-              return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Doğrulama Hatası', 'errors' => 'Email veya şifre hatalı!']);
+              return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Doğrulama Hatası', 'error' => 'Email veya şifre hatalı!']);
           }
     }
 
