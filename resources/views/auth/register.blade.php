@@ -134,12 +134,24 @@
                     name="name"
                     placeholder="Lütfen adınızı giriniz..."
                     autofocus
+                    required
                   />
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Email adresiniz giriniz..." />
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Email adresiniz giriniz..."  required/>
                 </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Telefon</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefon numaranızı giriniz..." required />
+                  </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Kayıt Tipi</label>
+                    <select id="role" name="role" class="form-control" required>
+                        <option value="user" selected>Influencer</option>
+                        <option value="merchant">Marka</option>
+                    </select>
+                  </div>
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Şifre</label>
                   <div class="input-group input-group-merge">
@@ -149,6 +161,7 @@
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+                      required
                     />
                   </div>
                 </div>
@@ -161,6 +174,7 @@
                         name="password_confirmation"
                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                         aria-describedby="password"
+                        required
                       />
                     </div>
                   </div>

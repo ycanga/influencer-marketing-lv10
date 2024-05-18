@@ -18,10 +18,17 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        $acceptedRoles = ['merchant', 'user'];
+
+        if (!in_array($request->role, $acceptedRoles)) {
+            return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Geçersiz rol!']);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role,
         ]);
 
         Auth::login($user);

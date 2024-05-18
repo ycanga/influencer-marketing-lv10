@@ -26,7 +26,9 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string'
         ];
     }
 
@@ -48,6 +50,11 @@ class RegisterRequest extends FormRequest
             'password.string' => 'Password must be a string',
             'password.min' => 'Password must be at least 8 characters',
             'password.confirmed' => 'Password confirmation does not match',
+            'role.required' => 'Role is required',
+            'role.string' => 'Role must be a string',
+            'phone.required' => 'Phone is required',
+            'phone.string' => 'Phone must be a string',
+            'phone.max' => 'Phone must not be greater than 255 characters',
         ];
     }
 

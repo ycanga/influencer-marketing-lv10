@@ -21,9 +21,8 @@ class LoginController extends Controller
               // Oturum açma başarılı olduğunda doğrudan yönlendirme yapabilirsiniz.
               return redirect()->route('home');
           } else {
-            dd("error");
               // Oturum açma başarısız olduğunda geri dönerken hata mesajını da gönderebilirsiniz.
-              return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Email veya şifre hatalı!']);
+              return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Doğrulama Hatası', 'errors' => 'Email veya şifre hatalı!']);
           }
     }
 
