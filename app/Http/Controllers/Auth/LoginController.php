@@ -10,19 +10,8 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('Auth.login');
+        return view('auth.login');
     }
-
-    // public function login(LoginRequest $request)
-    // {
-    //     $credentials = $request->only('email', 'password');
-
-    //     if (Auth::attempt($credentials)) {
-    //         return redirect()->intended('/');
-    //     }
-
-    //     return back()->with('error', 'Invalid credentials');
-    // }
 
     public function login(LoginRequest $request)
     {
