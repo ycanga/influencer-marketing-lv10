@@ -27,15 +27,15 @@ class AppServiceProvider extends ServiceProvider
 
             $status = true;
             $paymentData = PaymentData::where('user_id', auth()->id())->first();
-
             if ($paymentData) {
-                foreach ($paymentData as $key => $value) {
-                    if (!$value) {
+                $columns = ['bank_name', 'iban', 'account_username', 'desc'];
+                foreach ($columns as $column) {
+                    if (empty($paymentData->$column)) {
                         $status = false;
                         break;
                     }
                 }
-            }else{
+            } else {
                 $status = false;
             }
 

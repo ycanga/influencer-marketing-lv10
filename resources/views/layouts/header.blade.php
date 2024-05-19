@@ -35,6 +35,9 @@
 
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
+    <!-- App CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}" />
+
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/config.js') }}"></script>
@@ -48,7 +51,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo p-3">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="{{route('home')}}" class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -213,7 +216,6 @@
                     </div>
                 </nav>
                 <!-- / Navbar -->
-
                 @if (!$paymentData)
                     <div class="container mt-3">
                         <div class="alert alert-danger shadow" role="alert">Ödeme bilgileriniz eksik. Lütfen ödeme işlemlerinizin aksamaması için bilgilerinizi tamamlayın. <b><a href="{{route('payment.index')}}">Buraya tıklayın</a></b></div>

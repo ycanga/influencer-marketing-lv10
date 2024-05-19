@@ -1,0 +1,13 @@
+.toast-danger {
+    background-color: #d03838 !important;
+    color: #ffff !important;
+}
+
+.toast-success {
+    background-color: #28a745 !important;
+    color: #ffff !important;
+}
+
+.toast-header {
+    color: #ffff !important;
+}

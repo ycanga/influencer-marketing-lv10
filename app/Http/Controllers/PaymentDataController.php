@@ -10,10 +10,9 @@ class PaymentDataController extends Controller
 {
     public function index()
     {
-        $paymentData = PaymentData::where('user_id', auth()->id())->first();
-
-        if($paymentData) {
-            return view('payment.index', $paymentData);
+        $data = PaymentData::where('user_id', auth()->id())->first();
+        if($data) {
+            return view('payment.index', ['data' => $data]);
         }
 
         return view('payment.index');
