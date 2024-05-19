@@ -18,10 +18,19 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email',
+                'password' => 'required|string|min:8|confirmed',
+                'role' => 'required|string',
+            ]
+        );
+
         $acceptedRoles = ['merchant', 'user'];
 
         if (!in_array($request->role, $acceptedRoles)) {
-            return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Geçersiz rol!']);
+            return redirect()->back()->withInput()->with(['status' => 'error', 'message' => 'Geçersiz rol!', 'error' => 'Rol sadece "Influencer" veya "Marka" olabilir!']);
         }
 
         $user = User::create([

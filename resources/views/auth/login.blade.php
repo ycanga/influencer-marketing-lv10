@@ -115,10 +115,10 @@
                         <!-- /Logo -->
                         <h4 class="mb-2">Welcome to Sneat! 👋</h4>
 
-                        @if(session('error'))
-                          <div class="alert alert-danger">
-                            {{ session('error') }}
-                          </div>
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
                         @endif
 
                         @if (session('validation'))
@@ -162,12 +162,12 @@
                             }
                         </script>
 
-                        <form class="mb-3" action="{{ route('auth.login') }}" method="POST">
+                        <form class="mb-3" action="{{ route('auth.login') }}" method="POST" id="login-form">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Lütfen email adresinizi girin..." autofocus />
+                                    placeholder="Lütfen email adresinizi girin..." autofocus required />
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -179,7 +179,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" name="password"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
+                                        aria-describedby="password" required id="password" />
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -189,9 +189,33 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Giriş Yap</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit" id="login-button" disabled>Giriş Yap</button>
                             </div>
                         </form>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const form = document.getElementById('login-form');
+                                const submitButton = document.getElementById('login-button');
+                                const emailInput = document.getElementById('email');
+                                const passwordInput = document.getElementById('password');
+
+                                function checkFormValidity() {
+                                    if (emailInput.value.trim() && passwordInput.value.trim()) {
+                                        submitButton.disabled = false;
+                                    } else {
+                                        submitButton.disabled = true;
+                                    }
+                                }
+
+                                emailInput.addEventListener('input', checkFormValidity);
+                                passwordInput.addEventListener('input', checkFormValidity);
+
+                                // İlk yüklemede formun geçerliliğini kontrol et
+                                checkFormValidity();
+                            });
+                        </script>
+
 
                         <p class="text-center">
                             <span>Bir hesabınız yok mu?</span>
