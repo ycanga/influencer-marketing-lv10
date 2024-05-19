@@ -1,7 +1,7 @@
 <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item active">
-        <a href="index.html" class="menu-link">
+    <li class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+        <a href="{{route('home')}}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
@@ -248,6 +248,16 @@
         <a href="icons-boxicons.html" class="menu-link">
             <i class="menu-icon tf-icons bx bx-crown"></i>
             <div data-i18n="Boxicons">Boxicons</div>
+        </a>
+    </li>
+
+    <!-- Payments -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Payments</span></li>
+    <li class="menu-item {{ request()->routeIs('payment.index') ? 'active' : '' }}">
+        <a href="{{route('payment.store')}}"
+            class="menu-link">
+            <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+            <div data-i18n="Banka Bilgileri">Banka Bilgileri</div>
         </a>
     </li>
 
