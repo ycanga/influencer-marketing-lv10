@@ -125,7 +125,7 @@
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
                         <div class="navbar-nav align-items-center">
-                            <div class="nav-item d-flex align-items-center border p-1">
+                            <div class="nav-item d-flex align-items-center border p-1 pr-3">
                                 @php
                                     $statusColor = '';
                                     if ($balance >= 500) {
@@ -143,6 +143,8 @@
                                     Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }}
                                         TL</b></a>
                             </div>
+                            &nbsp;
+                            <a href="{{route('balance.index')}}" class="btn btn-outline-success btn-sm">Bakiye Yükle +</a>
                         </div>
                         <!-- /Search -->
 
