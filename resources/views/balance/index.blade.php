@@ -6,6 +6,9 @@
     <div class="container mt-3">
         <div class="card">
             <h5 class="card-header">Bakiye Geçmişi</h5>
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#basicModal">Bakiye Yükle</button>
+            </div>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
@@ -45,9 +48,9 @@
                             <td colspan="4" class="text-start">
                                 Yüklenen Toplam Tutar:
                             </td>
-                            <td class="text-end my-4">
-                                <b>
-                                  {{$totalBalance}} ₺
+                            <td class="text-end">
+                                <b class="me-5">
+                                    {{ $totalBalance }} ₺
                                 </b>
                             </td>
                         </tr>
@@ -56,4 +59,6 @@
             </div>
         </div>
     </div>
+    {{-- Balance Transfer Modal --}}
+    @include('balance.modals.transfer-modal')
 @endsection

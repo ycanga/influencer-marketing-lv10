@@ -144,7 +144,7 @@
                                         TL</b></a>
                             </div>
                             &nbsp;
-                            <a href="{{route('balance.index')}}" class="btn btn-outline-success btn-sm">Bakiye Yükle +</a>
+                            <a href="{{route('balance.index')}}" class="btn btn-success btn-sm">Bakiye Yükle +</a>
                         </div>
                         <!-- /Search -->
 
