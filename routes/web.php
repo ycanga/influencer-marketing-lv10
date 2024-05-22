@@ -9,4 +9,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/payment-data', [App\Http\Controllers\PaymentDataController::class, 'index'])->name('payment.index');
     Route::post('/payment-data', [App\Http\Controllers\PaymentDataController::class, 'store'])->name('payment.store');
     Route::get('/balance-transfer', [App\Http\Controllers\BalanceTransferController::class, 'index'])->name('balance.index');
+    Route::post('/balance-transfer', [App\Http\Controllers\BalanceTransferController::class, 'store'])->name('balance.store');
 });
+Route::post('/return', [App\Http\Controllers\BalanceTransferController::class, 'return'])->name('balance.return');

@@ -51,7 +51,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo p-3">
-                    <a href="{{route('home')}}" class="app-brand-link">
+                    <a href="{{ route('home') }}" class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -144,7 +144,7 @@
                                         TL</b></a>
                             </div>
                             &nbsp;
-                            <a href="{{route('balance.index')}}" class="btn btn-success btn-sm">Bakiye Yükle +</a>
+                            <a href="{{ route('balance.index') }}" class="btn btn-success btn-sm">Bakiye Yükle +</a>
                         </div>
                         <!-- /Search -->
 
@@ -220,6 +220,8 @@
                 <!-- / Navbar -->
                 @if (!$paymentData)
                     <div class="container mt-3">
-                        <div class="alert alert-danger shadow" role="alert">Ödeme bilgileriniz eksik. Lütfen ödeme işlemlerinizin aksamaması için bilgilerinizi tamamlayın. <b><a href="{{route('payment.index')}}">Buraya tıklayın</a></b></div>
+                        <div class="alert alert-danger shadow" role="alert">Ödeme bilgileriniz eksik. Lütfen ödeme
+                            işlemlerinizin aksamaması için bilgilerinizi tamamlayın. <b><a
+                                    href="{{ route('payment.index') }}">Buraya tıklayın</a></b></div>
                     </div>
                 @endif
