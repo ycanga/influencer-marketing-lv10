@@ -40,6 +40,8 @@ class BalanceTransferController extends Controller
 
     public function store(BalanceRequest $request)
     {
+        $lastId = BalanceHistory::latest('id')->first();
+        // dd($lastId);
         $data = $this->balanceTrait->requiredData();
 
         $userBalance = $data['userBalance'];
@@ -55,7 +57,6 @@ class BalanceTransferController extends Controller
         $balance->type = $request->payment_method;
         $balance->status = 'pending';
         $balance->save();
-
 
         if (!$balance) {
             return redirect()->route('balance.index')->with('error', 'Bakiye Transfer İsteği Gönderilemedi...', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
@@ -129,7 +130,8 @@ class BalanceTransferController extends Controller
 
             $checkoutFormInitialize = CheckoutFormInitialize::create($request, $options);
             $paymentinput = $checkoutFormInitialize->getCheckoutFormContent();
-            return view('balance.index', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId, 'paymentinput' => $paymentinput]);
+            // dd($paymentinput);
+            return redirect()->route('balance.index', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId, 'paymentinput' => $paymentinput]);
         }
 
         return redirect()->route('balance.index')->with('success', 'Bakiye Transfer İsteği Gönderildi...');

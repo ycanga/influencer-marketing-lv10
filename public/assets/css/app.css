@@ -11,3 +11,12 @@
 .toast-header {
     color: #ffff !important;
 }
+
+.bg-admin {
+    background-color: #e0e0e0 !important;
+    color: #000 !important;
+}
+
+.bg-admin hr {
+    border-top: 1px solid #000 !important;
+}

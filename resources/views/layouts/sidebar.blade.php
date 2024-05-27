@@ -266,6 +266,15 @@
         </a>
     </li>
 
+    <!-- Support -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
+    <li class="menu-item {{ request()->routeIs('support.index') ? 'active' : '' }}">
+        <a href="{{ route('support.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-support"></i>
+            <div data-i18n="Banka Bilgileri">Destek ve Yardım</div>
+        </a>
+    </li>
+
     <!-- Forms & Tables -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
     <!-- Forms -->
