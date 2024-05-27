@@ -253,18 +253,28 @@
 
     <!-- Payments -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Payments</span></li>
-    <li class="menu-item {{ request()->routeIs('payment.index') ? 'active' : '' }}">
-        <a href="{{ route('payment.store') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
-            <div data-i18n="Banka Bilgileri">Banka Bilgileri</div>
-        </a>
-    </li>
-    <li class="menu-item {{ request()->routeIs('balance.index') ? 'active' : '' }}">
-        <a href="{{ route('balance.index') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-coin"></i>
-            <div data-i18n="Banka Bilgileri">Bakiye Yükle</div>
-        </a>
-    </li>
+    @user
+        <li class="menu-item {{ request()->routeIs('payment.index') ? 'active' : '' }}">
+            <a href="{{ route('payment.store') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+                <div data-i18n="Banka Bilgileri">Banka Bilgileri</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('balance.index') ? 'active' : '' }}">
+            <a href="{{ route('balance.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-coin"></i>
+                <div data-i18n="Banka Bilgileri">Bakiye Yükle</div>
+            </a>
+        </li>
+    @enduser
+    @admin
+        <li class="menu-item {{ request()->routeIs('admin.balance.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.balance.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-badge-dollar'></i>
+                <div data-i18n="Banka Bilgileri">Bakiye Talepleri</div>
+            </a>
+        </li>
+    @endadmin
 
     <!-- Support -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>

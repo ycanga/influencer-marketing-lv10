@@ -7,11 +7,16 @@
     @include('layouts.alert')
     <div class="container mt-3">
         <div class="card">
-            <h5 class="card-header">Destek Taleplerim</h5>
-            <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#basicModal">Destek Talebi
-                    Oluştur</button>
-            </div>
+            @user
+                <h5 class="card-header">Destek Taleplerim</h5>
+                <div class="d-flex justify-content-end mb-3">
+                    <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#basicModal">Destek Talebi
+                        Oluştur</button>
+                </div>
+            @enduser
+            @admin
+                <h5 class="card-header">Tüm Destek Talepleri</h5>
+            @endadmin
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>

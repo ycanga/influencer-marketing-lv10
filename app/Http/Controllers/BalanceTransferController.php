@@ -41,7 +41,6 @@ class BalanceTransferController extends Controller
     public function store(BalanceRequest $request)
     {
         $lastId = BalanceHistory::latest('id')->first();
-        // dd($lastId);
         $data = $this->balanceTrait->requiredData();
 
         $userBalance = $data['userBalance'];
@@ -50,6 +49,10 @@ class BalanceTransferController extends Controller
         $lastId = $data['lastId'];
 
         $request->validated();
+
+        if($request->amount < 1){
+            return redirect()->route('balance.index')->with('error', 'Lütfen geçerli bir değer giriniz...', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
+        }
 
         $balance = new BalanceHistory();
         $balance->user_id = auth()->id();
