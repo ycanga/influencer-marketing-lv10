@@ -263,15 +263,21 @@
         <li class="menu-item {{ request()->routeIs('balance.index') ? 'active' : '' }}">
             <a href="{{ route('balance.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-coin"></i>
-                <div data-i18n="Banka Bilgileri">Bakiye Yükle</div>
+                <div data-i18n="Bakiye Yükle">Bakiye Yükle</div>
             </a>
         </li>
     @enduser
+    <li class="menu-item {{ request()->routeIs('demand.index') ? 'active' : '' }}">
+        <a href="{{ route('demand.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-lira"></i>
+            <div data-i18n="Para Çekme Talepleri">Para Çekme Talepleri</div>
+        </a>
+    </li>
     @admin
         <li class="menu-item {{ request()->routeIs('admin.balance.index') ? 'active' : '' }}">
             <a href="{{ route('admin.balance.index') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bxs-badge-dollar'></i>
-                <div data-i18n="Banka Bilgileri">Bakiye Talepleri</div>
+                <div data-i18n="Bakiye Talepleri">Bakiye Talepleri</div>
             </a>
         </li>
     @endadmin
@@ -281,7 +287,7 @@
     <li class="menu-item {{ request()->routeIs('support.index') ? 'active' : '' }}">
         <a href="{{ route('support.index') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-support"></i>
-            <div data-i18n="Banka Bilgileri">Destek ve Yardım</div>
+            <div data-i18n="Destek ve Yardım">Destek ve Yardım</div>
         </a>
     </li>
 

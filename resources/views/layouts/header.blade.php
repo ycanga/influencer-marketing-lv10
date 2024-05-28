@@ -218,10 +218,12 @@
                     </div>
                 </nav>
                 <!-- / Navbar -->
-                @if (!$paymentData)
-                    <div class="container mt-3">
-                        <div class="alert alert-danger shadow" role="alert">Ödeme bilgileriniz eksik. Lütfen ödeme
-                            işlemlerinizin aksamaması için bilgilerinizi tamamlayın. <b><a
-                                    href="{{ route('payment.index') }}">Buraya tıklayın</a></b></div>
-                    </div>
-                @endif
+                @user
+                    @if (!$paymentData)
+                        <div class="container mt-3">
+                            <div class="alert alert-danger shadow" role="alert">Ödeme bilgileriniz eksik. Lütfen ödeme
+                                işlemlerinizin aksamaması için bilgilerinizi tamamlayın. <b><a
+                                        href="{{ route('payment.index') }}">Buraya tıklayın</a></b></div>
+                        </div>
+                    @endif
+                @enduser

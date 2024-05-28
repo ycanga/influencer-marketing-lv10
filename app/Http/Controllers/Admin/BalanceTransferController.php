@@ -5,9 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BalanceHistory;
+use App\Models\User;
+use App\Http\Controllers\Traits\BalanceTrait;
 
 class BalanceTransferController extends Controller
 {
+    public function __construct(BalanceTrait $balanceTrait)
+    {
+        $this->balanceTrait = $balanceTrait;
+    }
+
     public function index()
     {
         $balanceTransfers = BalanceHistory::where('status', 'pending')->where('type', 'iban')->with('user')->orderBy('created_at', 'desc')->paginate(10);
@@ -23,9 +30,8 @@ class BalanceTransferController extends Controller
         }
 
         //update user balance
-        $user = $balanceTransfer->user;
-        $user->balance += $balanceTransfer->amount;
-        $user->save();
+        $this->balanceTrait->updateBalance($balanceTransfer->user_id, $balanceTransfer->amount);
+
 
         $balanceTransfer->status = 'success';
         $balanceTransfer->save();
