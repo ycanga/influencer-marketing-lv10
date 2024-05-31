@@ -124,28 +124,31 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
-                        <div class="navbar-nav align-items-center">
-                            <div class="nav-item d-flex align-items-center border p-1 pr-3">
-                                @php
-                                    $statusColor = '';
-                                    if ($balance >= 500) {
-                                        $statusColor = 'success';
-                                    } else {
-                                        $statusColor = 'danger';
-                                    }
-                                @endphp
-                                <a href="#balance"
-                                    @if ($balance < 500) data-bs-toggle="tooltip"
+                        @user
+                            <div class="navbar-nav align-items-center">
+                                <div class="nav-item d-flex align-items-center border p-1 pr-3">
+                                    @php
+                                        $statusColor = '';
+                                        if ($balance >= 500) {
+                                            $statusColor = 'success';
+                                        } else {
+                                            $statusColor = 'danger';
+                                        }
+                                    @endphp
+                                    <a href="#balance"
+                                        @if ($balance < 500) data-bs-toggle="tooltip"
                                     data-bs-offset="0,4"
                                     data-bs-placement="bottom"
                                     data-bs-html="true"
                                     title="<span>Bakiyeniz minimum tutarın altında lütfen yükleme yapın. !</span>" @endif>Mevcut
-                                    Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }}
-                                        TL</b></a>
+                                        Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }}
+                                            TL</b>
+                                    </a>
+                                </div>
+                                &nbsp;
+                                <a href="{{ route('balance.index') }}" class="btn btn-success btn-sm">Bakiye Yükle +</a>
                             </div>
-                            &nbsp;
-                            <a href="{{ route('balance.index') }}" class="btn btn-success btn-sm">Bakiye Yükle +</a>
-                        </div>
+                        @enduser
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">

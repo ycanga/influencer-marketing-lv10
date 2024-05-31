@@ -251,12 +251,23 @@
         </a>
     </li>
 
+    <!-- Campaigns -->
+    @merchant
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Campaigns</span></li>
+        <li class="menu-item {{ request()->routeIs('campaign.index') ? 'active' : '' }}">
+            <a href="{{ route('campaign.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-chalkboard' ></i>
+                <div data-i18n="Kampanyalar">Kampanyalar</div>
+            </a>
+        </li>
+    @endmerchant
+
     <!-- Payments -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Payments</span></li>
     @user
         <li class="menu-item {{ request()->routeIs('payment.index') ? 'active' : '' }}">
             <a href="{{ route('payment.store') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+                <i class="menu-icon tf-icons bx bx-credit-card"></i>
                 <div data-i18n="Banka Bilgileri">Banka Bilgileri</div>
             </a>
         </li>
