@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\User;
 
 class ApiTokenControl
 {
@@ -29,7 +30,15 @@ class ApiTokenControl
      */
     private function hasBearerToken(Request $request): bool
     {
-        dd('is here');
-        // return $request->bearerToken() !== null;
+        $bearerToken = $request->bearerToken;
+        if (!$bearerToken) {
+            return false;
+        }
+
+        $user = User::where('bearer_token', $bearerToken)->pluck('bearer_token')->first();
+        if (!$user) {
+            return false;
+        }
+        return true;
     }
 }

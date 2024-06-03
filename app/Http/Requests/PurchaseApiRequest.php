@@ -27,6 +27,7 @@ class PurchaseApiRequest extends FormRequest
             'refCode' => 'required|string',
             'purchaseValue' => 'required|numeric',
             'ipAddress' => 'required|string',
+            'campaignId' => 'required|numeric',
         ];
     }
 
@@ -42,6 +43,8 @@ class PurchaseApiRequest extends FormRequest
             'purchaseValue.numeric' => 'Purchase value must be a number.',
             'ipAddress.required' => 'IP address is required.',
             'ipAddress.string' => 'IP address must be a string.',
+            'campaignId.required' => 'Campaign ID is required.',
+            'campaignId.numeric' => 'Campaign ID must be a number.',
         ];
     }
 

@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Traits;
 
 use App\Models\User;
 use App\Models\BalanceHistory;
+use App\Models\Campaigns;
 use App\Models\PaymentModels;
 use App\Models\CampaignUsers;
 
 class BalanceTrait
 {
-    public function updateBalance($userId, $amount, $campaignUserID, $campaignID)
+    public function updateBalance($userId, $amount, $campaignUserID = null, $campaignID)
     {
         $user = User::find($userId);
         $user->balance += $amount;
@@ -17,6 +18,11 @@ class BalanceTrait
 
         if($campaignUserID){
             $campaignUser = User::find($campaignUserID);
+            $campaignUser->balance -= $amount;
+            $campaignUser->save();
+        }else{
+            $campaignUserFind = Campaigns::find($campaignID);
+            $campaignUser = User::find($campaignUserFind->user_id);
             $campaignUser->balance -= $amount;
             $campaignUser->save();
         }
@@ -36,5 +42,23 @@ class BalanceTrait
         $lastId = BalanceHistory::latest('id')->first();
 
         return ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId];
+    }
+
+    public function getClientIp()
+    {
+        $ipAddress = '';
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            // Paylaşılan internet üzerinden IP
+            $ipAddress = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // Proxy üzerinden gelen IP
+            $ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            // Remote adres
+            $ipAddress = $_SERVER['REMOTE_ADDR'];
+        }
+        // X-Forwarded-For başlığı birden fazla IP içerebilir, ilkini alalım
+        $ipArray = explode(',', $ipAddress);
+        return trim($ipArray[0]);
     }
 }
