@@ -253,10 +253,10 @@
 
     <!-- Campaigns -->
     @merchant
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Campaigns</span></li>
-        <li class="menu-item {{ request()->routeIs('campaign.index') ? 'active' : '' }}">
-            <a href="{{ route('campaign.index') }}" class="menu-link">
-                <i class='menu-icon tf-icons bx bxs-chalkboard' ></i>
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Campaigns</span></li>
+        <li class="menu-item {{ request()->routeIs('merchant.campaign.index') ? 'active' : '' }}">
+            <a href="{{ route('merchant.campaign.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-chalkboard'></i>
                 <div data-i18n="Kampanyalar">Kampanyalar</div>
             </a>
         </li>

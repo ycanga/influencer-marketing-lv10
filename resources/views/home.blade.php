@@ -131,7 +131,8 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}" alt="{{ $item->name }}" width="35" height="35">
+                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}"
+                                                            alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ $item->name }}</label>
                                                         <div class="row">
                                                             @if ($item->sbm && $item->sbm > 0)
@@ -141,14 +142,15 @@
                                                                     </span>
                                                                 </div>
                                                             @endif
-                                                            @if($item->tbm && $item->tbm > 0)
+                                                            @if ($item->tbm && $item->tbm > 0)
                                                                 <div class="col-12 mb-2">
-                                                                    <span class="badge bg-label-primary p-2 w-100">Tıklama başına
+                                                                    <span class="badge bg-label-primary p-2 w-100">Tıklama
+                                                                        başına
                                                                         <b>{{ $item->tbm }} ₺</b>
                                                                     </span>
                                                                 </div>
                                                             @endif
-                                                            @if($item->ibm && $item->ibm > 0)
+                                                            @if ($item->ibm && $item->ibm > 0)
                                                                 <div class="col-12 mb-2">
                                                                     <span class="badge bg-label-primary p-2 w-100">İşlem başına
                                                                         <b>{{ $item->ibm }} ₺</b>
@@ -163,10 +165,13 @@
                                                             </b>
                                                         </label>
                                                         <div>
-                                                            <button class="btn-sm btn btn-primary" data-item="{{$item}}">
+                                                            <button class="btn-sm btn btn-primary dataShow"
+                                                                data-bs-toggle="modal" data-bs-target="#showModal"
+                                                                data-item="{{ $item }}">
                                                                 <i class="bx bx-show"></i>
                                                             </button>
-                                                            <button class="btn-sm btn btn-success">
+                                                            <button class="btn-sm btn btn-success"
+                                                                onclick="subscribeCampaign({{ $item->id }})">
                                                                 <i class="bx bx-check"></i>
                                                             </button>
                                                         </div>
@@ -177,7 +182,7 @@
                                         @if (!$hasSales)
                                             <div class="text-center">
                                                 <div class="alert alert-warning" role="alert">
-                                                    <strong>Uyarı!</strong> Henüz kampanya oluşturulmamış.
+                                                    <strong>Uyarı!</strong> Henüz yeni kampanya oluşturulmamış.
                                                 </div>
                                             </div>
                                         @endif
@@ -194,7 +199,8 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}" alt="{{ $item->name }}" width="35" height="35">
+                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}"
+                                                            alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ $item->name }}</label>
                                                         <div class="row">
                                                             @if ($item->sbm && $item->sbm > 0)
@@ -204,14 +210,15 @@
                                                                     </span>
                                                                 </div>
                                                             @endif
-                                                            @if($item->tbm && $item->tbm > 0)
+                                                            @if ($item->tbm && $item->tbm > 0)
                                                                 <div class="col-12 mb-2">
-                                                                    <span class="badge bg-label-primary p-2 w-100">Tıklama başına
+                                                                    <span class="badge bg-label-primary p-2 w-100">Tıklama
+                                                                        başına
                                                                         <b>{{ $item->tbm }} ₺</b>
                                                                     </span>
                                                                 </div>
                                                             @endif
-                                                            @if($item->ibm && $item->ibm > 0)
+                                                            @if ($item->ibm && $item->ibm > 0)
                                                                 <div class="col-12 mb-2">
                                                                     <span class="badge bg-label-primary p-2 w-100">İşlem başına
                                                                         <b>{{ $item->ibm }} ₺</b>
@@ -226,10 +233,13 @@
                                                             </b>
                                                         </label>
                                                         <div>
-                                                            <button class="btn-sm btn btn-primary" data-item="{{$item}}">
+                                                            <button class="btn-sm btn btn-primary dataShow"
+                                                                data-bs-toggle="modal" data-bs-target="#showModal"
+                                                                data-item="{{ $item }}">
                                                                 <i class="bx bx-show"></i>
                                                             </button>
-                                                            <button class="btn-sm btn btn-success">
+                                                            <button class="btn-sm btn btn-success"
+                                                                onclick="subscribeCampaign({{ $item->id }})">
                                                                 <i class="bx bx-check"></i>
                                                             </button>
                                                         </div>
@@ -240,7 +250,7 @@
                                         @if (!$hasClick)
                                             <div class="text-center">
                                                 <div class="alert alert-warning" role="alert">
-                                                    <strong>Uyarı!</strong> Henüz kampanya oluşturulmamış.
+                                                    <strong>Uyarı!</strong> Henüz yeni kampanya oluşturulmamış.
                                                 </div>
                                             </div>
                                         @endif
@@ -256,7 +266,8 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}" alt="{{ $item->name }}" width="35" height="35">
+                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}"
+                                                            alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ $item->name }}</label>
                                                         <div class="row">
                                                             @if ($item->sbm && $item->sbm > 0)
@@ -266,14 +277,15 @@
                                                                     </span>
                                                                 </div>
                                                             @endif
-                                                            @if($item->tbm && $item->tbm > 0)
+                                                            @if ($item->tbm && $item->tbm > 0)
                                                                 <div class="col-12 mb-2">
-                                                                    <span class="badge bg-label-primary p-2 w-100">Tıklama başına
+                                                                    <span class="badge bg-label-primary p-2 w-100">Tıklama
+                                                                        başına
                                                                         <b>{{ $item->tbm }} ₺</b>
                                                                     </span>
                                                                 </div>
                                                             @endif
-                                                            @if($item->ibm && $item->ibm > 0)
+                                                            @if ($item->ibm && $item->ibm > 0)
                                                                 <div class="col-12 mb-2">
                                                                     <span class="badge bg-label-primary p-2 w-100">İşlem başına
                                                                         <b>{{ $item->ibm }} ₺</b>
@@ -288,10 +300,13 @@
                                                             </b>
                                                         </label>
                                                         <div>
-                                                            <button class="btn-sm btn btn-primary" data-item="{{$item}}">
+                                                            <button class="btn-sm btn btn-primary dataShow"
+                                                                data-bs-toggle="modal" data-bs-target="#showModal"
+                                                                data-item="{{ $item }}">
                                                                 <i class="bx bx-show"></i>
                                                             </button>
-                                                            <button class="btn-sm btn btn-success" data-item="{{$item}}">
+                                                            <button class="btn-sm btn btn-success"
+                                                                onclick="subscribeCampaign({{ $item->id }})">
                                                                 <i class="bx bx-check"></i>
                                                             </button>
                                                         </div>
@@ -302,7 +317,7 @@
                                         @if (!$hasMultiple)
                                             <div class="text-center">
                                                 <div class="alert alert-warning" role="alert">
-                                                    <strong>Uyarı!</strong> Henüz kampanya oluşturulmamış.
+                                                    <strong>Uyarı!</strong> Henüz yeni kampanya oluşturulmamış.
                                                 </div>
                                             </div>
                                         @endif
@@ -423,7 +438,7 @@
                             </div>
                         </div>
                         <!-- </div>
-                                                    <div class="row"> -->
+                                                        <div class="row"> -->
                         <div class="col-12 mb-4">
                             <div class="card">
                                 <div class="card-body">
@@ -722,4 +737,15 @@
             </div>
         </div>
         <!-- / Content -->
+        @include('components.modals.campaign-show')
+
+        <script>
+            function subscribeCampaign(id) {
+                if (confirm('Bu kampanyaya katılmak istediğinize emin misiniz?')) {
+                    var url = '{{ route('user.campaign.subscribe', ':id') }}';
+                    url = url.replace(':id', id);
+                    window.location.href = url;
+                }
+            }
+        </script>
     @endsection
