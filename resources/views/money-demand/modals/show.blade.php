@@ -30,7 +30,7 @@
                                         <input type="text" class="form-control" id="date" disabled>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="message">Destek Açıklaması</label>
+                                        <label for="message">Talep Açıklaması</label>
                                         <div class="input-group">
                                             <textarea class="form-control" id="desc" disabled></textarea>
                                         </div>

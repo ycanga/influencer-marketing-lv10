@@ -26,14 +26,34 @@ class BladeServiceProvider extends ServiceProvider
             return $user && $user->role === 'admin';
         });
 
-        Blade::if('user', function () {
+        Blade::if('user', function ($perm=null) {
             $user = auth()->user();
-            return $user && $user->role === 'user' || $user->role === 'merchant';
+
+            if($perm) {
+                return $user && $user->role === 'user' || $user->role === 'admin' || $user->role === 'merchant';
+            }else{
+                return $user && $user->role === 'user' || $user->role === 'merchant';
+            }
         });
 
-        Blade::if('merchant', function () {
+        Blade::if('merchant', function ($perm=null) {
             $user = auth()->user();
-            return $user && $user->role === 'merchant';
+
+            if($perm) {
+                return $user && $user->role === 'merchant' || $user->role === 'admin';
+            }else{
+                return $user && $user->role === 'merchant';
+            }
+        });
+
+        Blade::if('influencer', function ($perm=null) {
+            $user = auth()->user();
+
+            if($perm) {
+                return $user && $user->role === 'user' || $user->role === 'admin';
+            }else{
+                return $user && $user->role === 'user';
+            }
         });
     }
 }

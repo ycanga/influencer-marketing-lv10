@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\CampaignUsers;
 use App\Models\CampaignUserLogs;
 use App\Models\Campaigns;
-use App\Models\User;
 use App\Http\Controllers\Traits\BalanceTrait;
+use Carbon\Carbon;
 
 class ReferanceController extends Controller
 {
@@ -23,12 +23,20 @@ class ReferanceController extends Controller
         $ip = $this->getClientIp();
 
         if (!$refUrl) {
-            return redirect('/');
+            return abort(404);
         }
 
-        $findCampaign = Campaigns::find($refUrl->campaign_id);
-        if (!$findCampaign) {
-            return redirect('/');
+        $findCampaign = Campaigns::find($campaign);
+        $expireDate = false;
+
+        if ($findCampaign->time){
+            $expireDate = Carbon::parse($findCampaign->time);
+            $expireDate = $expireDate->isPast();
+        }
+
+
+        if (!$findCampaign || $findCampaign->status != 'active' || $expireDate) {
+            return abort(404);
         }
 
         $inf_revenue = 0;

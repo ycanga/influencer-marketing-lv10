@@ -12,8 +12,10 @@ class CampaignController extends Controller
     {
         if(auth()->user()->role == 'admin') {
             $campaigns = Campaigns::paginate(10);
-        }else{
+        }else if(auth()->user()->role == 'merchant') {
             $campaigns = Campaigns::where('user_id', auth()->user()->id)->paginate(10);
+        }else{
+            $campaigns = CampaignUsers::where('user_id', auth()->user()->id)->paginate(10);
         }
         return view('campaign.index', ['campaigns' => $campaigns]);
     }

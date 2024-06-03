@@ -23,6 +23,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Money Demand
     Route::post('/money-demand', [App\Http\Controllers\MoneyDemandController::class, 'store'])->name('demand.store');
+
+    // Campaigns
+    Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('merchant.campaign.index');
 });
 
 // General Routes
@@ -46,7 +49,7 @@ Route::middleware(['auth', 'role.control'])->group(function () {
 // Merchant Routes
 Route::middleware(['auth', 'merchant.control'])->group(function () {
     // Campaigns
-    Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('merchant.campaign.index');
+    // Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('merchant.campaign.index');
 });
 
 // User Routes
