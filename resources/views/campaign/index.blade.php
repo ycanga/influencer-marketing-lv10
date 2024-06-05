@@ -6,17 +6,23 @@
 
     <div class="container mt-3">
         <div class="card">
-            <h5 class="card-header">Kampanyalar</h5>
-            @merchant
+            @merchant('true')
+                <h5 class="card-header">Kampanyalar</h5>
+            @endmerchant
+            @influencer
+                <h5 class="card-header">Kampanyalarım</h5>
+            @endinfluencer
+            @merchant('true')
                 <div class="d-flex justify-content-end mb-3">
                     <button class="btn btn-primary me-3"
-                        @if ($balance < 500) data-bs-toggle="tooltip"
+                        @if ($balance < 500 && auth()->user()->role != 'admin') data-bs-toggle="tooltip"
                         data-bs-offset="0,4"
                         data-bs-placement="bottom"
                         data-bs-html="true"
                         title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" 
                         @else
-                            data-bs-toggle="modal" data-bs-target="#createModal" @endif>
+                            data-bs-toggle="modal" data-bs-target="#createModal" 
+                        @endif>
 
                         Kampanya Oluştur
                     </button>
@@ -30,6 +36,12 @@
                             <th>Kampanya Adı</th>
                             <th>Kampanya Tipi</th>
                             <th>Görüntülenme</th>
+                            @influencer
+                                <th>Kazanç (₺)</th>
+                            @endinfluencer
+                            @merchant('true')
+                                <th>Katılımcı Sayısı</th>
+                            @endmerchant
                             <th>Oluşturma Tarihi</th>
                             <th>Durum</th>
                             <th>İşlem</th>
@@ -54,6 +66,16 @@
                                         <span class="badge bg-warning">Sadece Seçili Kişiler</span>
                                     @endif
                                 </td>
+                                @influencer
+                                    <td class="text-success">
+                                        {{ $item->revenue }} ₺
+                                    </td>
+                                @endinfluencer
+                                @merchant('true')
+                                    <td class="text-success text-center">
+                                        {{ $item->users }}
+                                    </td>
+                                @endmerchant
                                 <td>
                                     {{ $item->created_at->format('d.m.Y H:i') }}
                                 </td>
@@ -69,6 +91,11 @@
                                 <td>
                                     <button class="btn btn-primary btn-sm showCampaignData" data-bs-toggle="modal"
                                         data-bs-target="#showModal" data-item="{{ $item }}">Detay</button>
+                                    @influencer
+                                        <button class="btn btn-warning btn-sm" onclick="copyLink('{{$item->short_url}}')">
+                                            <i class='bx bx-link'></i>
+                                        </button>
+                                    @endinfluencer
                                     @merchant('true')
                                         <button class="btn btn-danger btn-sm"
                                             onclick="deleteCampaign({{ $item->id }})">Sil</button>
@@ -101,10 +128,8 @@
         </div>
     </div>
 
-    {{-- buradayım --}}
-
-    @if ($balance >= 500 || auth()->user()->role == 'admin')
     @include('campaign.modals.show')
+    @if ($balance >= 500 || auth()->user()->role == 'admin')
         @include('campaign.modals.create')
     @endif
 
@@ -131,6 +156,16 @@
                 url = url.replace(':id', id);
                 window.location.href = url;
             }
+        }
+
+        function copyLink(short_url) {
+            var dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = short_url;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            alert('Kopyalandı: ' + short_url);
         }
     </script>
 @endsection

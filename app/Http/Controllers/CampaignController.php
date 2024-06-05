@@ -17,12 +17,52 @@ class CampaignController extends Controller
 
     public function index()
     {
-        if(auth()->user()->role == 'admin') {
+        $users = [];
+        if (auth()->user()->role == 'admin') {
             $campaigns = Campaigns::paginate(10);
-        }else if(auth()->user()->role == 'merchant') {
+            foreach ($campaigns as $campaign) {
+                // Kampanyaya ait benzersiz kullanıcı sayısını al
+                $uniqueUserCount = CampaignUsers::where('campaign_id', $campaign->id)
+                    ->whereNotIn('user_id', $users)
+                    ->distinct('user_id')
+                    ->count('user_id');
+
+                // Kullanıcı ID'lerini mevcut listeye ekle
+                $userIds = CampaignUsers::where('campaign_id', $campaign->id)
+                    ->pluck('user_id')
+                    ->toArray();
+                $users = array_merge($users, $userIds);
+
+                // Benzersiz kullanıcı sayısını kampanyaya ekle
+                $campaign->users = $uniqueUserCount;
+            }
+        } else if (auth()->user()->role == 'merchant') {
             $campaigns = Campaigns::where('user_id', auth()->user()->id)->paginate(10);
-        }else{
-            $campaigns = CampaignUsers::where('user_id', auth()->user()->id)->paginate(10);
+            foreach ($campaigns as $campaign) {
+                // Kampanyaya ait benzersiz kullanıcı sayısını al
+                $uniqueUserCount = CampaignUsers::where('campaign_id', $campaign->id)
+                    ->whereNotIn('user_id', $users)
+                    ->distinct('user_id')
+                    ->count('user_id');
+
+                // Kullanıcı ID'lerini mevcut listeye ekle
+                $userIds = CampaignUsers::where('campaign_id', $campaign->id)
+                    ->pluck('user_id')
+                    ->toArray();
+                $users = array_merge($users, $userIds);
+
+                // Benzersiz kullanıcı sayısını kampanyaya ekle
+                $campaign->users = $uniqueUserCount;
+            }
+        } else {
+            $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
+            $campaigns = Campaigns::whereIn('id', $userCampaigns->pluck('campaign_id'))->paginate(10);
+
+            foreach ($campaigns as $campaign) {
+                $userCampaign = $userCampaigns->firstWhere('campaign_id', $campaign->id);
+                $campaign->revenue = $userCampaign ? $userCampaign->revenue : 0;
+                $campaign->short_url = $userCampaign ? $userCampaign->short_url : '';
+            }
         }
         return view('campaign.index', ['campaigns' => $campaigns]);
     }
@@ -30,17 +70,17 @@ class CampaignController extends Controller
     public function subscribe($id)
     {
         $campaign = Campaigns::find($id);
-        if(!$campaign){
+        if (!$campaign) {
             return redirect()->back()->with('error', 'Kampanya bulunamadı.');
         }
 
         $campaignType = '';
 
-        if($campaign->type == 'click'){
+        if ($campaign->type == 'click') {
             $campaignType = 'tbm';
-        }else if($campaign->type == 'sale'){
+        } else if ($campaign->type == 'sale') {
             $campaignType = 'sbm';
-        }else if($campaign->type == 'multiple'){
+        } else if ($campaign->type == 'multiple') {
             $campaignType = 'ibm';
         }
 
@@ -48,7 +88,7 @@ class CampaignController extends Controller
         $newCampaignUser->campaign_id = $campaign->id;
         $newCampaignUser->user_id = auth()->user()->id;
         $newCampaignUser->url = $campaign->link;
-        $newCampaignUser->short_url = url('/ref/'.uniqid());
+        $newCampaignUser->short_url = url('/ref/' . uniqid() . "/" . $campaign->id);
         $newCampaignUser->campaign_type = $campaignType;
         $newCampaignUser->save();
 
@@ -57,34 +97,34 @@ class CampaignController extends Controller
 
     public function store(Request $request)
     {
-        if($request->type == 'multiple'){
+        if ($request->type == 'multiple') {
             $request->validate([
                 'sbm' => 'required|numeric',
                 'tbm' => 'required|numeric',
                 'multipleClick' => 'required',
             ]);
-        }else if($request->type == 'sale'){
+        } else if ($request->type == 'sale') {
             $request->validate([
                 'sbm' => 'required|numeric',
             ]);
-        }else if($request->type == 'click'){
+        } else if ($request->type == 'click') {
             $request->validate([
                 'tbm' => 'required|numeric',
                 'multipleClick' => 'required',
             ]);
         }
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ]);
         }
-        
+
         $newCampaign = new Campaigns();
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $imageName = $this->generalFunctions->saveImage($request->file('image'), 'campaigns');
-            $newCampaign->image = "/images/campaigns/".$imageName;
+            $newCampaign->image = "/images/campaigns/" . $imageName;
         }
 
         $newCampaign->name = $request->name;
@@ -105,7 +145,7 @@ class CampaignController extends Controller
     public function delete($id)
     {
         $campaign = Campaigns::find($id);
-        if(!$campaign){
+        if (!$campaign) {
             return redirect()->back()->with('error', 'Kampanya bulunamadı.');
         }
 
