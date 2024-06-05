@@ -137,10 +137,10 @@
                                     @endphp
                                     <a href="#balance"
                                         @if ($balance < 500) data-bs-toggle="tooltip"
-                                    data-bs-offset="0,4"
+                                    data-bs-offset="0,1"
                                     data-bs-placement="bottom"
                                     data-bs-html="true"
-                                    title="<span>Bakiyeniz minimum tutarın altında lütfen yükleme yapın. !</span>" @endif>Mevcut
+                                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" @endif>Mevcut
                                         Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }}
                                             TL</b>
                                     </a>

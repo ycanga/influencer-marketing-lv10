@@ -30,7 +30,7 @@ class BalanceTransferController extends Controller
         }
 
         //update user balance
-        $this->balanceTrait->updateBalance($balanceTransfer->user_id, $balanceTransfer->amount);
+        $this->balanceTrait->updateUserBalance($balanceTransfer->user_id, $balanceTransfer->amount);
 
 
         $balanceTransfer->status = 'success';

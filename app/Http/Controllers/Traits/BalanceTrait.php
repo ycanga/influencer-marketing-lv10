@@ -10,7 +10,7 @@ use App\Models\CampaignUsers;
 
 class BalanceTrait
 {
-    public function updateBalance($userId, $amount, $campaignUserID = null, $campaignID)
+    public function updateBalance($userId, $amount, $campaignUserID = null, $campaignID=null)
     {
         $user = User::find($userId);
         $user->balance += $amount;
@@ -20,7 +20,7 @@ class BalanceTrait
             $campaignUser = User::find($campaignUserID);
             $campaignUser->balance -= $amount;
             $campaignUser->save();
-        }else{
+        }else if($campaignID){
             $campaignUserFind = Campaigns::find($campaignID);
             $campaignUser = User::find($campaignUserFind->user_id);
             $campaignUser->balance -= $amount;
@@ -60,5 +60,14 @@ class BalanceTrait
         // X-Forwarded-For başlığı birden fazla IP içerebilir, ilkini alalım
         $ipArray = explode(',', $ipAddress);
         return trim($ipArray[0]);
+    }
+
+    public function updateUserBalance($userId, $amount)
+    {
+        $user = User::find($userId);
+        $user->balance += $amount;
+        $user->save();
+
+        return true;
     }
 }

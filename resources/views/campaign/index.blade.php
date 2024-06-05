@@ -7,12 +7,21 @@
     <div class="container mt-3">
         <div class="card">
             <h5 class="card-header">Kampanyalar</h5>
-            @user
+            @merchant
                 <div class="d-flex justify-content-end mb-3">
-                    <button class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#createModal">Talep
-                        Oluştur</button>
+                    <button class="btn btn-primary me-3"
+                        @if ($balance < 500) data-bs-toggle="tooltip"
+                        data-bs-offset="0,4"
+                        data-bs-placement="bottom"
+                        data-bs-html="true"
+                        title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" 
+                        @else
+                            data-bs-toggle="modal" data-bs-target="#createModal" @endif>
+
+                        Kampanya Oluştur
+                    </button>
                 </div>
-            @enduser
+            @endmerchant
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
@@ -39,14 +48,14 @@
                                     {{ $item->type }}
                                 </td>
                                 <td>
-                                    @if($item->visibility == 'public')
+                                    @if ($item->visibility == 'public')
                                         <span class="badge bg-success">Herkes</span>
                                     @else
                                         <span class="badge bg-warning">Sadece Seçili Kişiler</span>
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $item->created_at->format('d.m.Y H:i')}}
+                                    {{ $item->created_at->format('d.m.Y H:i') }}
                                 </td>
                                 <td>
                                     @if ($item->status == 'active')
@@ -58,15 +67,19 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm showDetails" data-bs-toggle="modal"
-                                        data-bs-target="#basicModal" data-item="{{ $item }}">Detay</button>
+                                    <button class="btn btn-primary btn-sm showCampaignData" data-bs-toggle="modal"
+                                        data-bs-target="#showModal" data-item="{{ $item }}">Detay</button>
+                                    @merchant('true')
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="deleteCampaign({{ $item->id }})">Sil</button>
+                                    @endmerchant
                                     @admin
                                         @if ($item->status == 'pending')
                                             <button class="btn btn-danger btn-sm"
-                                                onclick="closeDemand({{ $item->id }})">İptal
+                                                onclick="closeCampaign({{ $item->id }})">İptal
                                                 Et</button>
                                             <button class="btn btn-success btn-sm"
-                                                onclick="approveDemand({{ $item->id }})">Onayla</button>
+                                                onclick="approveCampaign({{ $item->id }})">Onayla</button>
                                         @endif
                                     @endadmin
                                 </td>
@@ -87,4 +100,37 @@
             </div>
         </div>
     </div>
+
+    {{-- buradayım --}}
+
+    @if ($balance >= 500 || auth()->user()->role == 'admin')
+    @include('campaign.modals.show')
+        @include('campaign.modals.create')
+    @endif
+
+    <script>
+        function closeCampaign(id) {
+            if (confirm('Talebi iptal etmek istediğinize emin misiniz?')) {
+                var url = '{{ route('admin.campaign.reject', ':id') }}';
+                url = url.replace(':id', id);
+                window.location.href = url;
+            }
+        }
+
+        function approveCampaign(id) {
+            if (confirm('Talebi onaylamak istediğinize emin misiniz?')) {
+                var url = '{{ route('admin.campaign.approve', ':id') }}';
+                url = url.replace(':id', id);
+                window.location.href = url;
+            }
+        }
+
+        function deleteCampaign(id) {
+            if (confirm('Kampanyayı silmek istediğinize emin misiniz?')) {
+                var url = '{{ route('merchant.campaign.delete', ':id') }}';
+                url = url.replace(':id', id);
+                window.location.href = url;
+            }
+        }
+    </script>
 @endsection

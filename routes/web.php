@@ -44,17 +44,22 @@ Route::middleware(['auth', 'role.control'])->group(function () {
     // Money Demand
     Route::get('/money-demand/reject/{id}', [App\Http\Controllers\Admin\MoneyDemandController::class, 'reject'])->name('admin.demand.reject');
     Route::get('/money-demand/approve/{id}', [App\Http\Controllers\Admin\MoneyDemandController::class, 'approve'])->name('admin.demand.approve');
+
+    // Campaigns
+    Route::get('/campaigns/approve/{id}', [App\Http\Controllers\Admin\CampaignController::class, 'approve'])->name('admin.campaign.approve');
+    Route::get('/campaigns/reject/{id}', [App\Http\Controllers\Admin\CampaignController::class, 'reject'])->name('admin.campaign.reject');
+
 });
 
 // Merchant Routes
 Route::middleware(['auth', 'merchant.control'])->group(function () {
     // Campaigns
-    // Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('merchant.campaign.index');
+    Route::post('/campaigns/create', [App\Http\Controllers\CampaignController::class, 'store'])->name('merchant.campaign.store');
+    Route::get('/campaigns/delete/{id}', [App\Http\Controllers\CampaignController::class, 'delete'])->name('merchant.campaign.delete');
 });
 
 // User Routes
 Route::middleware(['auth', 'user.control'])->group(function () {
     // Campaigns
-    // Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('user.campaign.index');
     Route::get('/campaigns/{id}/subscribe', [App\Http\Controllers\CampaignController::class, 'subscribe'])->name('user.campaign.subscribe');
 });
