@@ -113,7 +113,6 @@ class CampaignController extends Controller
                 'multipleClick' => 'required',
             ]);
         }
-
         if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',

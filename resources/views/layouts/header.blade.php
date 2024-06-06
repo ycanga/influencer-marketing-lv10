@@ -123,35 +123,82 @@
                     </div>
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                        <!-- Search -->
-                        @user
-                            <div class="navbar-nav align-items-center">
-                                <div class="nav-item d-flex align-items-center border p-1 pr-3">
-                                    @php
-                                        $statusColor = '';
-                                        if ($balance >= 500) {
-                                            $statusColor = 'success';
-                                        } else {
-                                            $statusColor = 'danger';
-                                        }
-                                    @endphp
-                                    <a href="#balance"
-                                        @if ($balance < 500) data-bs-toggle="tooltip"
-                                    data-bs-offset="0,1"
-                                    data-bs-placement="bottom"
-                                    data-bs-html="true"
-                                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" @endif>Mevcut
-                                        Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }}
-                                            TL</b>
-                                    </a>
-                                </div>
-                                &nbsp;
-                                <a href="{{ route('balance.index') }}" class="btn btn-success btn-sm">Bakiye Yükle +</a>
+                        <!-- Clock -->
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-time-five fs-4 lh-0"></i> &nbsp;
+                                <div id="clock"></div>
                             </div>
-                        @enduser
-                        <!-- /Search -->
+                        </div>
+                        <script>
+                            function updateClock() {
+                                var now = new Date();
+                                var hours = now.getHours();
+                                var minutes = now.getMinutes();
+                                var seconds = now.getSeconds();
+                                hours = hours < 10 ? '0' + hours : hours;
+                                minutes = minutes < 10 ? '0' + minutes : minutes;
+                                seconds = seconds < 10 ? '0' + seconds : seconds;
+                    
+                                var timeString = hours + ':' + minutes + ':' + seconds;
+                                
+                                document.getElementById('clock').textContent = timeString;
+                            }
+                    
+                            setInterval(updateClock, 1000);
+                            updateClock();
+                        </script>
+                        <!-- /Clock -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            @user
+                                {{-- <div class="navbar-nav row align-items-center">
+                                    <div class="nav-item d-flex align-items-center border p-1 pr-3 col">
+                                        @php
+                                            $statusColor = '';
+                                            if ($balance >= 500) {
+                                                $statusColor = 'success';
+                                            } else {
+                                                $statusColor = 'danger';
+                                            }
+                                        @endphp
+                                        <a href="#balance"
+                                            @if ($balance < 500) data-bs-toggle="tooltip"
+                                        data-bs-offset="0,1"
+                                        data-bs-placement="bottom"
+                                        data-bs-html="true"
+                                        title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" @endif>Mevcut
+                                            Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }}
+                                                TL</b>
+                                        </a>
+                                    </div>
+                                    &nbsp;
+                                    <a href="{{ route('balance.index') }}" class="btn btn-success btn-sm col">Bakiye Yükle +</a>
+                                </div> --}}
+                                {{-- <div class="navbar-nav d-flex align-items-center flex-wrap">
+                                    <div class="nav-item d-flex align-items-center border p-1 pr-3">
+                                        @php
+                                            $statusColor = '';
+                                            if ($balance >= 500) {
+                                                $statusColor = 'success';
+                                            } else {
+                                                $statusColor = 'danger';
+                                            }
+                                        @endphp
+                                        <a href="#balance" class="text-sm"
+                                            @if ($balance < 500) data-bs-toggle="tooltip"
+                                            data-bs-offset="0,1"
+                                            data-bs-placement="bottom"
+                                            data-bs-html="true"
+                                            title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" @endif>
+                                            Mevcut Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }}">{{ $balance }} TL</b>
+                                        </a>
+                                    </div>
+                                    <a href="{{ route('balance.index') }}" class="btn btn-success btn-sm ml-2">Bakiye Yükle +</a>
+                                </div>
+                                 --}}
+                            @enduser
+
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"

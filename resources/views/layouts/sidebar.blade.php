@@ -1,4 +1,37 @@
 <ul class="menu-inner py-1">
+
+    @user
+        <li class="menu-item border mb-3 p-3">
+            <div class="menu-link text-sm">
+                @php
+                    $statusColor = '';
+                    if ($balance >= 500) {
+                        $statusColor = 'success';
+                    } else {
+                        $statusColor = 'danger';
+                    }
+                @endphp
+                <p href="#balance" class="text-balance"
+                    @if ($balance < 500) data-bs-toggle="tooltip"
+                    data-bs-offset="0,1"
+                    data-bs-placement="bottom"
+                    data-bs-html="true"
+                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" @endif>
+                    Mevcut Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }} text-sm">{{ $balance }} TL</b>
+                </p>
+            </div>
+            <a href="{{ route('balance.index') }}" class="menu-link btn btn-success balance-href">
+                Bakiye Yükle +
+            </a>
+            <style>
+                .text-balance {
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+            </style>
+        </li>
+    @enduser
+
     <!-- Dashboard -->
     <li class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
         <a href="{{ route('home') }}" class="menu-link">

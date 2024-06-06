@@ -118,6 +118,21 @@
                                             Çoklu kampanyalar
                                         </button>
                                     </li>
+                                    @merchant('true')
+                                    <li class="nav-item">
+                                        <button class="btn btn-success me-3"
+                                            @if ($balance < 500 && auth()->user()->role != 'admin') data-bs-toggle="tooltip"
+                                                data-bs-offset="0,4"
+                                                data-bs-placement="bottom"
+                                                data-bs-html="true"
+                                                title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" 
+                                                @else
+                                                    data-bs-toggle="modal" data-bs-target="#createModal" @endif>
+
+                                            Yeni Kampanya Oluştur
+                                        </button>
+                                    </li>
+                                    @endmerchant
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
@@ -170,10 +185,12 @@
                                                                 data-item="{{ $item }}">
                                                                 <i class="bx bx-show"></i>
                                                             </button>
-                                                            <button class="btn-sm btn btn-success"
-                                                                onclick="subscribeCampaign({{ $item->id }})">
-                                                                <i class="bx bx-check"></i>
-                                                            </button>
+                                                            @influencer
+                                                                <button class="btn-sm btn btn-success"
+                                                                    onclick="subscribeCampaign({{ $item->id }})">
+                                                                    <i class="bx bx-check"></i>
+                                                                </button>
+                                                            @endinfluencer
                                                         </div>
                                                     </div>
                                                 </div>
@@ -438,7 +455,7 @@
                             </div>
                         </div>
                         <!-- </div>
-                                                        <div class="row"> -->
+                                                                        <div class="row"> -->
                         <div class="col-12 mb-4">
                             <div class="card">
                                 <div class="card-body">
@@ -738,14 +755,16 @@
         </div>
         <!-- / Content -->
         @include('components.modals.campaign-show')
-
-        <script>
-            function subscribeCampaign(id) {
-                if (confirm('Bu kampanyaya katılmak istediğinize emin misiniz?')) {
-                    var url = '{{ route('user.campaign.subscribe', ':id') }}';
-                    url = url.replace(':id', id);
-                    window.location.href = url;
+        @include('campaign.modals.create')
+        @influencer
+            <script>
+                function subscribeCampaign(id) {
+                    if (confirm('Bu kampanyaya katılmak istediğinize emin misiniz?')) {
+                        var url = '{{ route('user.campaign.subscribe', ':id') }}';
+                        url = url.replace(':id', id);
+                        window.location.href = url;
+                    }
                 }
-            }
-        </script>
+            </script>
+        @endinfluencer
     @endsection
