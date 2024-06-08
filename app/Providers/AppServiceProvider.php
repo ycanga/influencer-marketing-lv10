@@ -42,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('balance', auth()->user()?->balance ?? 0);
             $view->with('paymentData', $status);
+            $view->with('userPhoto', auth()->user()->photo ?? '/images/site_favicon/1717860313.png');
 
             // Settings
             $settings = Settings::first();

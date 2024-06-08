@@ -54,6 +54,13 @@ Route::middleware(['auth', 'role.control'])->group(function () {
     Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings.index');
     Route::post('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'store'])->name('admin.settings.store');
 
+    // Users
+    Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.user.index');
+    Route::get('/users/{id}/block', [App\Http\Controllers\Admin\UserController::class, 'block'])->name('admin.user.block');
+    Route::get('/users/{id}/unblock', [App\Http\Controllers\Admin\UserController::class, 'unblock'])->name('admin.user.unblock');
+    Route::get('/users/{id}/role-update', [App\Http\Controllers\Admin\UserController::class, 'updateRole'])->name('admin.user.role');
+    Route::get('/users/{id}/delete', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.user.delete');
+
 });
 
 // Merchant Routes

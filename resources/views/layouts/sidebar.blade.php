@@ -129,5 +129,13 @@
                 <div data-i18n="Genel Ayarlar">Genel Ayarlar</div>
             </a>
         </li>
+        <!-- Users -->
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
+        <li class="menu-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.user.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-cog'></i>
+                <div data-i18n="Kullanıcılar">Kullanıcılar</div>
+            </a>
+        </li>
     @endadmin
 </ul>
