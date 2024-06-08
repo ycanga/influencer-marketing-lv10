@@ -34,7 +34,7 @@
                                     value="{{$settings->site_keywords ?? ''}}" placeholder="Anahtar kelimeleri giriniz...">
                             </div>
                             <div class="form-group mt-3">
-                                <label for="site_keywords">Minimum Bakiye Tutarı</label>
+                                <label for="site_keywords">Minimum Bakiye Tutarı (₺)</label>
                                 <div id="defaultFormControlHelp" class="form-text">
                                     <b class="text-danger">**</b>
                                     Minimum bakiye tutarı, kullanıcıların site üzerinden para yatırırken en az ne kadar yatırabileceğini belirler.
