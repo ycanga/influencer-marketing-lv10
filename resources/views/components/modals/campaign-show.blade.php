@@ -96,7 +96,7 @@
     }
 
     $('.dataShow').click(function(event) {
-        var merchant = $(this).data('item').users.name;
+        var merchant = $(this).data('item').merchant.name;
         var status = $(this).data('item').status;
         var desc = $(this).data('item').description;
         var date = formatDate($(this).data('item').created_at);

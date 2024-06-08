@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         $activeUserCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
-        $campaigns = Campaigns::where('status', 'active')->whereNotIn('id', $activeUserCampaigns->pluck('campaign_id'))->with('users')->orderBy('created_at', 'desc')->limit(5)->get();
+        $campaigns = Campaigns::where('status', 'active')->whereNotIn('id', $activeUserCampaigns->pluck('campaign_id'))->with('merchant')->orderBy('created_at', 'desc')->limit(5)->get();
 
         return view('home', ['campaigns' => $campaigns]);
     }

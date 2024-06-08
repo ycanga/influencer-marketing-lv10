@@ -201,10 +201,10 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    {{-- <div class="form-group mb-3">
+                                    <div class="form-group mb-3">
                                         <label for="merchant">Kampanya Sahibi (Marka)</label>
                                         <input type="text" class="form-control" id="merchant" disabled>
-                                    </div> --}}
+                                    </div>
                                     <div class="form-group mb-3">
                                         <label for="name">Kampanya Adı</label>
                                         <input type="text" class="form-control" id="name" name="name" disabled>
@@ -294,7 +294,9 @@
         var action = $(this).data('item').ibm ?? '-';
         var time = $(this).data('item').time ?? 'Süresiz';
         var visitLink = document.getElementById('visitLink');
+        // var merchant = $(this).data('item').merchant.name;
 
+        console.log(merchant);
 
         if (status == 'active') {
             $("#status").html('<span class="badge bg-success">Aktif</span>');
@@ -313,6 +315,7 @@
         $("#ibm").html(action + " ₺");
         $("#time").val(time);
         visitLink.href = link;
+        $("#merchant").val(merchant);
     })
 </script>
 

@@ -19,7 +19,7 @@ class CampaignController extends Controller
     {
         $users = [];
         if (auth()->user()->role == 'admin') {
-            $campaigns = Campaigns::paginate(10);
+            $campaigns = Campaigns::with('merchant')->paginate(10);
             foreach ($campaigns as $campaign) {
                 // Kampanyaya ait benzersiz kullanıcı sayısını al
                 $uniqueUserCount = CampaignUsers::where('campaign_id', $campaign->id)
@@ -37,7 +37,7 @@ class CampaignController extends Controller
                 $campaign->users = $uniqueUserCount;
             }
         } else if (auth()->user()->role == 'merchant') {
-            $campaigns = Campaigns::where('user_id', auth()->user()->id)->paginate(10);
+            $campaigns = Campaigns::where('user_id', auth()->user()->id)->with('merchant')->paginate(10);
             foreach ($campaigns as $campaign) {
                 // Kampanyaya ait benzersiz kullanıcı sayısını al
                 $uniqueUserCount = CampaignUsers::where('campaign_id', $campaign->id)
@@ -56,7 +56,7 @@ class CampaignController extends Controller
             }
         } else {
             $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
-            $campaigns = Campaigns::whereIn('id', $userCampaigns->pluck('campaign_id'))->paginate(10);
+            $campaigns = Campaigns::whereIn('id', $userCampaigns->pluck('campaign_id'))->with('merchant')->paginate(10);
 
             foreach ($campaigns as $campaign) {
                 $userCampaign = $userCampaigns->firstWhere('campaign_id', $campaign->id);

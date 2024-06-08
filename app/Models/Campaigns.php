@@ -11,7 +11,7 @@ class Campaigns extends Model
 
     protected $guarded = [];
 
-    public function users()
+    public function merchant()
     {
         return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name', 'email');
     }
