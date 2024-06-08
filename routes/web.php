@@ -57,6 +57,9 @@ Route::middleware(['auth', 'merchant.control'])->group(function () {
     // Campaigns
     Route::post('/campaigns/create', [App\Http\Controllers\CampaignController::class, 'store'])->name('merchant.campaign.store');
     Route::get('/campaigns/delete/{id}', [App\Http\Controllers\CampaignController::class, 'delete'])->name('merchant.campaign.delete');
+
+    // Integration
+    Route::get('/integration', [App\Http\Controllers\IntegrationController::class, 'index'])->name('merchant.integration.index');
 });
 
 // User Routes

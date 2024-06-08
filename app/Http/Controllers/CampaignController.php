@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Campaigns;
 use App\Models\CampaignUsers;
-use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Traits\GeneralFunctionsTrait;
+use App\Http\Requests\CampaignRequest;
 
 class CampaignController extends Controller
 {
@@ -112,7 +112,7 @@ class CampaignController extends Controller
         return redirect()->back()->with('success', 'Kampanyadan başarıyla ayrıldınız.');
     }
 
-    public function store(Request $request)
+    public function store(CampaignRequest $request)
     {
         if ($request->type == 'multiple') {
             $request->validate([
@@ -172,8 +172,6 @@ class CampaignController extends Controller
 
     public function all()
     {
-        // $campaigns = Campaigns::where('status', 'active')->with('merchant')->paginate(10);
-
         if(auth()->user()->role == 'admin') {
             $campaigns = Campaigns::where('status', 'active')->with('merchant')->paginate(10);
         } else if(auth()->user()->role == 'merchant') {

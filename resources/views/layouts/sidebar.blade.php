@@ -100,6 +100,17 @@
         </li>
     @endadmin
 
+    @merchant('true')
+    <!-- Integration -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text">Integration</span></li>
+    <li class="menu-item {{ request()->routeIs('merchant.integration.index') ? 'active' : '' }}">
+        <a href="{{ route('merchant.integration.index') }}" class="menu-link">
+            <i class='menu-icon tf-icons bx bx-intersect'></i>
+            <div data-i18n="Destek ve Yardım">Entegrasyon</div>
+        </a>
+    </li>
+    @endmerchant
+
     <!-- Support -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
     <li class="menu-item {{ request()->routeIs('support.index') ? 'active' : '' }}">
