@@ -15,11 +15,11 @@
             @merchant('true')
                 <div class="d-flex justify-content-end mb-3">
                     <button class="btn btn-primary me-3"
-                        @if ($balance < 500 && auth()->user()->role != 'admin') data-bs-toggle="tooltip"
+                        @if ($balance < $settings->site_min_balance && auth()->user()->role != 'admin') data-bs-toggle="tooltip"
                         data-bs-offset="0,4"
                         data-bs-placement="bottom"
                         data-bs-html="true"
-                        title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" 
+                        title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{$settings->site_min_balance}}₺) altında lütfen yükleme yapın. !</span>" 
                         @else
                             data-bs-toggle="modal" data-bs-target="#createModal" @endif>
 
@@ -132,7 +132,7 @@
     </div>
 
     @include('campaign.modals.show')
-    @if ($balance >= 500 || auth()->user()->role == 'admin')
+    @if ($balance >= $settings->site_min_balance || auth()->user()->role == 'admin')
         @include('campaign.modals.create')
     @endif
 

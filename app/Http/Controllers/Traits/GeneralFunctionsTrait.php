@@ -7,7 +7,7 @@ class GeneralFunctionsTrait
     public function saveImage($image, $folderName)
     {
         $imageName = time().'.'.$image->extension();
-        $image->move(public_path('images/'.$folderName), $imageName);
+        $image = $image->move(public_path('images/'.$folderName), $imageName);
         return $imageName;
     }
 }

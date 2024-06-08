@@ -50,6 +50,10 @@ Route::middleware(['auth', 'role.control'])->group(function () {
     Route::get('/campaigns/approve/{id}', [App\Http\Controllers\Admin\CampaignController::class, 'approve'])->name('admin.campaign.approve');
     Route::get('/campaigns/reject/{id}', [App\Http\Controllers\Admin\CampaignController::class, 'reject'])->name('admin.campaign.reject');
 
+    // Settings
+    Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings.index');
+    Route::post('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'store'])->name('admin.settings.store');
+
 });
 
 // Merchant Routes

@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as ViewInstance;
 use App\Models\PaymentData;
+use App\Models\Settings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('balance', auth()->user()?->balance ?? 0);
             $view->with('paymentData', $status);
+
+            // Settings
+            $settings = Settings::first();
+            $view->with('settings', $settings);
         });
     }
 }

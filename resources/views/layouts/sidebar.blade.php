@@ -5,18 +5,18 @@
             <div class="menu-link text-sm">
                 @php
                     $statusColor = '';
-                    if ($balance >= 500) {
+                    if ($balance >= $settings->site_min_balance) {
                         $statusColor = 'success';
                     } else {
                         $statusColor = 'danger';
                     }
                 @endphp
                 <p href="#balance" class="text-balance"
-                    @if ($balance < 500) data-bs-toggle="tooltip"
+                    @if ($balance < $settings->site_min_balance) data-bs-toggle="tooltip"
                     data-bs-offset="0,1"
                     data-bs-placement="bottom"
                     data-bs-html="true"
-                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" @endif>
+                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{$settings->site_min_balance}}₺) altında lütfen yükleme yapın. !</span>" @endif>
                     Mevcut Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }} text-sm">{{ $balance }} TL</b>
                 </p>
             </div>
@@ -101,14 +101,14 @@
     @endadmin
 
     @merchant('true')
-    <!-- Integration -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">Integration</span></li>
-    <li class="menu-item {{ request()->routeIs('merchant.integration.index') ? 'active' : '' }}">
-        <a href="{{ route('merchant.integration.index') }}" class="menu-link">
-            <i class='menu-icon tf-icons bx bx-intersect'></i>
-            <div data-i18n="Destek ve Yardım">Entegrasyon</div>
-        </a>
-    </li>
+        <!-- Integration -->
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Integration</span></li>
+        <li class="menu-item {{ request()->routeIs('merchant.integration.index') ? 'active' : '' }}">
+            <a href="{{ route('merchant.integration.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-intersect'></i>
+                <div data-i18n="Destek ve Yardım">Entegrasyon</div>
+            </a>
+        </li>
     @endmerchant
 
     <!-- Support -->
@@ -119,4 +119,15 @@
             <div data-i18n="Destek ve Yardım">Destek ve Yardım</div>
         </a>
     </li>
+
+    @admin
+        <!-- Settings -->
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Settings</span></li>
+        <li class="menu-item {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.settings.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-cog'></i>
+                <div data-i18n="Genel Ayarlar">Genel Ayarlar</div>
+            </a>
+        </li>
+    @endadmin
 </ul>
