@@ -294,7 +294,7 @@
         var action = $(this).data('item').ibm ?? '-';
         var time = $(this).data('item').time ?? 'Süresiz';
         var visitLink = document.getElementById('visitLink');
-        // var merchant = $(this).data('item').merchant.name;
+        var merchant = $(this).data('item').merchant.name;
 
         console.log(merchant);
 

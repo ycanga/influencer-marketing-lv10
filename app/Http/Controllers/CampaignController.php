@@ -95,6 +95,23 @@ class CampaignController extends Controller
         return redirect()->back()->with('success', 'Kampanyaya başarıyla abone oldunuz.');
     }
 
+    public function unsubscribe($id)
+    {
+        $campaign = Campaigns::find($id);
+        if (!$campaign) {
+            return redirect()->back()->with('error', 'Kampanya bulunamadı.');
+        }
+
+        $campaignUser = CampaignUsers::where('campaign_id', $campaign->id)->where('user_id', auth()->user()->id)->first();
+        if (!$campaignUser) {
+            return redirect()->back()->with('error', 'Kampanyaya abone değilsiniz.');
+        }
+
+        $campaignUser->delete();
+
+        return redirect()->back()->with('success', 'Kampanyadan başarıyla ayrıldınız.');
+    }
+
     public function store(Request $request)
     {
         if ($request->type == 'multiple') {
@@ -151,5 +168,21 @@ class CampaignController extends Controller
         $campaign->delete();
 
         return redirect()->back()->with('success', 'Kampanya başarıyla silindi.');
+    }
+
+    public function all()
+    {
+        // $campaigns = Campaigns::where('status', 'active')->with('merchant')->paginate(10);
+
+        if(auth()->user()->role == 'admin') {
+            $campaigns = Campaigns::where('status', 'active')->with('merchant')->paginate(10);
+        } else if(auth()->user()->role == 'merchant') {
+            $campaigns = Campaigns::where('user_id', '!=',auth()->user()->id)->where('status', 'active')->with('merchant')->paginate(10);
+        } else {
+            $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
+            $campaigns = Campaigns::whereNotIn('id', $userCampaigns->pluck('campaign_id'))->where('status', 'active')->with('merchant')->paginate(10);
+        }
+
+        return view('campaign.all', ['campaigns' => $campaigns]);
     }
 }

@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Campaigns
     Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('merchant.campaign.index');
+    Route::get('/campaigns/all', [App\Http\Controllers\CampaignController::class, 'all'])->name('merchant.campaign.all');
 });
 
 // General Routes
@@ -62,4 +63,5 @@ Route::middleware(['auth', 'merchant.control'])->group(function () {
 Route::middleware(['auth', 'user.control'])->group(function () {
     // Campaigns
     Route::get('/campaigns/{id}/subscribe', [App\Http\Controllers\CampaignController::class, 'subscribe'])->name('user.campaign.subscribe');
+    Route::get('/campaigns/{id}/unsubscribe', [App\Http\Controllers\CampaignController::class, 'unsubscribe'])->name('user.campaign.unsubscribe');
 });

@@ -45,9 +45,22 @@
     <li class="menu-item {{ request()->routeIs('merchant.campaign.index') ? 'active' : '' }}">
         <a href="{{ route('merchant.campaign.index') }}" class="menu-link">
             <i class='menu-icon tf-icons bx bxs-chalkboard'></i>
-            <div data-i18n="Kampanyalar">Kampanyalar</div>
+            @user
+                <div data-i18n="Kampanyalarım">Kampanyalarım</div>
+            @enduser
+            @admin
+                <div data-i18n="Tüm Kampanyalar"> Tüm Kampanyalar</div>
+            @endadmin
         </a>
     </li>
+    @user
+        <li class="menu-item {{ request()->routeIs('merchant.campaign.all') ? 'active' : '' }}">
+            <a href="{{ route('merchant.campaign.all') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-chalkboard'></i>
+                <div data-i18n="Tüm Kampanyalar"> Tüm Kampanyalar</div>
+            </a>
+        </li>
+    @enduser
 
     <!-- Payments -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Payments</span></li>

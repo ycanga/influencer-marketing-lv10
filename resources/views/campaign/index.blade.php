@@ -6,12 +6,12 @@
 
     <div class="container mt-3">
         <div class="card">
-            @merchant('true')
+            @admin
                 <h5 class="card-header">Kampanyalar</h5>
-            @endmerchant
-            @influencer
+            @endadmin
+            @user
                 <h5 class="card-header">Kampanyalarım</h5>
-            @endinfluencer
+            @enduser
             @merchant('true')
                 <div class="d-flex justify-content-end mb-3">
                     <button class="btn btn-primary me-3"
@@ -21,8 +21,7 @@
                         data-bs-html="true"
                         title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. 500₺) altında lütfen yükleme yapın. !</span>" 
                         @else
-                            data-bs-toggle="modal" data-bs-target="#createModal" 
-                        @endif>
+                            data-bs-toggle="modal" data-bs-target="#createModal" @endif>
 
                         Kampanya Oluştur
                     </button>
@@ -92,17 +91,21 @@
                                     <button class="btn btn-primary btn-sm showCampaignData" data-bs-toggle="modal"
                                         data-bs-target="#showModal" data-item="{{ $item }}">Detay</button>
                                     @influencer
-                                        <button class="btn btn-warning btn-sm" onclick="copyLink('{{$item->short_url}}')">
+                                        <button class="btn btn-warning btn-sm" onclick="copyLink('{{ $item->short_url }}')">
                                             <i class='bx bx-link'></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="unsubscribeCampaign('{{ $item->id }}')">
+                                            Ayrıl
                                         </button>
                                     @endinfluencer
                                     @merchant('true')
                                         <button class="btn btn-danger btn-sm"
-                                            onclick="deleteCampaign({{ $item->id }})">Sil</button>
+                                            onclick="deleteCampaign({{ $item->id }})">Sil <i class="bx bx-trash"></i> </button>
                                     @endmerchant
                                     @admin
                                         @if ($item->status == 'pending')
-                                            <button class="btn btn-danger btn-sm"
+                                            <button class="btn btn-secondary btn-sm"
                                                 onclick="closeCampaign({{ $item->id }})">İptal
                                                 Et</button>
                                             <button class="btn btn-success btn-sm"
@@ -168,4 +171,24 @@
             alert('Kopyalandı: ' + short_url);
         }
     </script>
+    @influencer
+        <script>
+            function subscribeCampaign(id) {
+                if (confirm('Bu kampanyaya katılmak istediğinize emin misiniz?')) {
+                    var url = '{{ route('user.campaign.subscribe', ':id') }}';
+                    url = url.replace(':id', id);
+                    window.location.href = url;
+                }
+            }
+        </script>
+        <script>
+            function unsubscribeCampaign(id) {
+                if (confirm('Bu kampanyadan ayrılmak istediğinize emin misiniz?')) {
+                    var campaign = '{{ route('user.campaign.unsubscribe', ':id') }}';
+                    campaign = campaign.replace(':id', id);
+                    window.location.href = campaign;
+                }
+            }
+        </script>
+    @endinfluencer
 @endsection

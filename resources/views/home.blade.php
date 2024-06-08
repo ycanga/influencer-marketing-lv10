@@ -91,7 +91,7 @@
                 </div> --}}
                 @user
                     <!-- Pills -->
-                    <h5 class="py-3">Yeni Kampanyalar</h5>
+                    <h5 class="py-3">Yeni Kampanyalar <a href="{{route('merchant.campaign.all')}}">( Tümünü Gör )</a></h5>
 
                     <div class="row mb-3">
                         <div class="col-xl-12">
