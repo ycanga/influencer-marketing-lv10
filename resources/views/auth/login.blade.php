@@ -7,9 +7,10 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Login - {{$settings->site_title}}</title>
+    <title>Giriş Yap - {{$settings->site_title}}</title>
 
-    <meta name="description" content="" />
+    <meta name="description" content="{{$settings->site_description}}" />
+    <meta name="keyword" content="{{$settings->site_keywords}}" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />

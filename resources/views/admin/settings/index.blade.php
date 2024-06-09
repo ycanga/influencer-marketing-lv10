@@ -15,7 +15,7 @@
                             <div class="form-group">
                                 <label for="site_title">Site Başlığı</label>
                                 <input type="text" name="site_title" id="site_title" class="form-control"
-                                    value="{{ $settings->site_title ?? '' }}" placeholder="Site başlığını giriniz...">
+                                    value="{{ $settings->site_title ?? '' }}" placeholder="Site başlığını giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="site_description">Site Açıklaması</label>
@@ -24,7 +24,7 @@
                                     Site açıklaması, arama motorlarında sitenizin tanıtımı için kullanılır.
                                 </div>
                                 <textarea name="site_description" id="site_description" class="form-control" rows="5"
-                                    placeholder="Site açıklamasını giriniz...">{{ $settings->site_description ?? '' }}</textarea>
+                                    placeholder="Site açıklamasını giriniz..." required>{{ $settings->site_description ?? '' }}</textarea>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="site_keywords">Anahtar Kelimeler</label>
@@ -34,7 +34,7 @@
                                 </div>
                                 <input type="text" name="site_keywords" id="site_keywords" class="form-control"
                                     value="{{ $settings->site_keywords ?? '' }}"
-                                    placeholder="Anahtar kelimeleri giriniz...">
+                                    placeholder="Anahtar kelimeleri giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="site_keywords">Minimum Bakiye Tutarı (₺)</label>
@@ -45,7 +45,7 @@
                                 </div>
                                 <input type="text" name="site_min_balance" id="site_min_balance" class="form-control"
                                     value="{{ $settings->site_min_balance ?? '' }}"
-                                    placeholder="Minimum bakiye tutarı giriniz...">
+                                    placeholder="Minimum bakiye tutarı giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="site_logo">Site Logosu</label>
@@ -78,20 +78,24 @@
                             <div class="form-group">
                                 <label for="ApiKey">API Anahtarı <b class="text-danger">*</b></label>
                                 <input type="text" name="ApiKey" id="ApiKey" class="form-control"
-                                    value="{{ $posSettings->ApiKey ?? '' }}" placeholder="API anahtarını giriniz...">
+                                    value="{{ $posSettings->ApiKey ?? '' }}" placeholder="API anahtarını giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="SecretKey">Gizli Anahtar <b class="text-danger">*</b></label>
                                 <input type="text" name="SecretKey" id="SecretKey" class="form-control"
-                                    value="{{ $posSettings->SecretKey ?? '' }}" placeholder="Gizli anahtarını giriniz...">
+                                    value="{{ $posSettings->SecretKey ?? '' }}" placeholder="Gizli anahtarını giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="BaseUrl">Base URL <b class="text-danger">*</b></label>
                                 <input type="text" name="BaseUrl" id="BaseUrl" class="form-control"
-                                    value="{{ $posSettings->BaseUrl ?? '' }}" placeholder="Base URL'i giriniz...">
+                                    value="{{ $posSettings->BaseUrl ?? '' }}" placeholder="Base URL'i giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="status">Durum</label>
+                                <div id="defaultFormControlHelp" class="form-text">
+                                    <b class="text-danger">**</b>
+                                    Bu ayarın pasif olması durumunda kullanıcılar İyzico sistemi üzerinden online ödeme yapamazlar.
+                                </div>
                             </div>
                             <div class="form-check form-switch mb-2">
                                 <input class="form-check-input" type="checkbox" id="status" name="status" @if($posSettings->status == 'active') checked @endif />
