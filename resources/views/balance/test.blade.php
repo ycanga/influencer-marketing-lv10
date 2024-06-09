@@ -1,3 +1,0 @@
-{!!$paymentinput!!}
-
-{!!$test!!}

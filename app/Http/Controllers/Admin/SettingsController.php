@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Settings;
 use App\Http\Requests\SettingsRequest;
 use App\Http\Controllers\Traits\GeneralFunctionsTrait;
+use App\Models\PaymentPosModels;
+use App\Models\PaymentModels;
 
 class SettingsController extends Controller
 {
@@ -18,7 +20,9 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = Settings::first();
-        return view('admin.settings.index', ['settings' => $settings]);
+        $posSettings = PaymentPosModels::first();
+
+        return view('admin.settings.index', ['settings' => $settings, 'posSettings' => $posSettings]);
     }
 
     public function store(SettingsRequest $request)
@@ -56,5 +60,38 @@ class SettingsController extends Controller
         }
 
         return back()->with('success', 'Ayarlar başarıyla güncellendi.');
+    }
+
+    public function pos(Request $request)
+    {
+        $request->validate([
+            'ApiKey' => 'required|string',
+            'SecretKey' => 'required|string',
+            'BaseUrl' => 'required|string',
+        ]);
+        
+        $data = $request->all();
+
+        $status = true;
+        
+        if($request->status == 'on') {
+            $data['status'] = 'active';
+            $status = true;
+        } else {
+            $data['status'] = 'inactive';
+            $status = false;
+        }
+
+        
+        $posSettings = PaymentPosModels::first();
+        $paymentModels = PaymentModels::where('key', $posSettings->name)->first();
+        if ($posSettings) {
+            $posSettings->update($data); 
+            $paymentModels->update(['status' => $status]);
+        } else {
+            PaymentPosModels::create($data);
+        }
+
+        return back()->with('success', 'POS ayarları başarıyla güncellendi.');
     }
 }

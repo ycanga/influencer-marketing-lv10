@@ -69,6 +69,42 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h3>İyzico Ayarları</h3>
+                        <form action="{{route('admin.settings.pos')}}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="ApiKey">API Anahtarı <b class="text-danger">*</b></label>
+                                <input type="text" name="ApiKey" id="ApiKey" class="form-control"
+                                    value="{{ $posSettings->ApiKey ?? '' }}" placeholder="API anahtarını giriniz...">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="SecretKey">Gizli Anahtar <b class="text-danger">*</b></label>
+                                <input type="text" name="SecretKey" id="SecretKey" class="form-control"
+                                    value="{{ $posSettings->SecretKey ?? '' }}" placeholder="Gizli anahtarını giriniz...">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="BaseUrl">Base URL <b class="text-danger">*</b></label>
+                                <input type="text" name="BaseUrl" id="BaseUrl" class="form-control"
+                                    value="{{ $posSettings->BaseUrl ?? '' }}" placeholder="Base URL'i giriniz...">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="status">Durum</label>
+                            </div>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="status" name="status" @if($posSettings->status == 'active') checked @endif />
+                                <label class="form-check-label" for="status"
+                                  >Pasif / Aktif</label
+                                >
+                              </div>
+                            <div class="form-group mt-3 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
