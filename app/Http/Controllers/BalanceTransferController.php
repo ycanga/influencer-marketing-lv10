@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Traits\BalanceTrait;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PaymentPosModels;
 
 class BalanceTransferController extends Controller
 {
@@ -67,11 +68,12 @@ class BalanceTransferController extends Controller
         $id = $balance->id;
 
         if ($request->payment_method == 'credit-card') {
+            $paymentModel = PaymentPosModels::find("1");
 
             $options = new Options();
-            $options->setApiKey(env('IYZICO_API_KEY'));
-            $options->setSecretKey(env('IYZICO_SECRET_KEY'));
-            $options->setBaseUrl(env('IYZICO_BASE_URL'));
+            $options->setApiKey($paymentModel->ApiKey);
+            $options->setSecretKey($paymentModel->SecretKey);
+            $options->setBaseUrl($paymentModel->BaseUrl);
 
             $request = new CreateCheckoutFormInitializeRequest();
             $request->setLocale(Locale::TR);
@@ -133,8 +135,8 @@ class BalanceTransferController extends Controller
 
             $checkoutFormInitialize = CheckoutFormInitialize::create($request, $options);
             $paymentinput = $checkoutFormInitialize->getCheckoutFormContent();
-            // dd($paymentinput);
-            return redirect()->route('balance.index', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId, 'paymentinput' => $paymentinput]);
+
+            return redirect()->route('returnRequest', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId, 'paymentinput' => $paymentinput]);
         }
 
         return redirect()->route('balance.index')->with('success', 'Bakiye Transfer İsteği Gönderildi...');
@@ -143,6 +145,32 @@ class BalanceTransferController extends Controller
     public function return(Request $request)
     {
         Auth::loginUsingId($request->user_id);
+        
+        $data = $this->balanceTrait->requiredData();
+        
+        $userBalance = $data['userBalance'];
+        $totalBalance = $data['totalBalance'];
+        $paymentModels = $data['paymentModels'];
+        $lastId = $data['lastId'];
+        
+        
+        $balance = BalanceHistory::find($request->balance_id);
+        if (!$balance) {
+            return redirect()->route('balance.index')->with('error', 'Bakiye Transfer İsteği Bulunamadı...', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
+        }
+
+        $this->balanceTrait->updateUserBalance($request->user_id, $balance->amount);
+
+        $balance->status = 'success';
+        $balance->token = $request->token;
+        $balance->save();
+
+        return redirect()->route('balance.index')->with('success', 'Bakiye Başarılı bir şekilde yüklendi...', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
+    }
+
+    public function returnRequest(Request $request)
+    {
+        $test = $request->paymentinput;
 
         $data = $this->balanceTrait->requiredData();
 
@@ -151,18 +179,6 @@ class BalanceTransferController extends Controller
         $paymentModels = $data['paymentModels'];
         $lastId = $data['lastId'];
 
-
-        $balance = BalanceHistory::find($request->balance_id);
-        if (!$balance) {
-            return redirect()->route('balance.index')->with('error', 'Bakiye Transfer İsteği Bulunamadı...', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
-        }
-
-        $this->balanceTrait->updateBalance($request->user_id, $balance->amount);
-
-        $balance->status = 'success';
-        $balance->token = $request->token;
-        $balance->save();
-
-        return redirect()->route('balance.index')->with('success', 'Bakiye Başarılı bir şekilde yüklendi...', ['userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
+        return view('balance.index', ['test' => $test, 'userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
     }
 }

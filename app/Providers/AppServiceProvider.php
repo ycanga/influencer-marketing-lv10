@@ -47,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
             // Settings
             $settings = Settings::first();
             $view->with('settings', $settings);
+
+            // Payment Pos
+            $paymentinput = '';
+            $view->with('paymentinput', $paymentinput);
         });
     }
 }

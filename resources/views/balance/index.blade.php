@@ -4,7 +4,10 @@
 
 @section('content')
     @include('layouts.alert')
-    {!! $paymentinput ?? '' !!}
+    {!! $test ?? '' !!}
+
+
+    {{-- @dd($test) --}}
 
     <div class="container mt-3">
         <div class="card">

@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Campaigns
     Route::get('/campaigns', [App\Http\Controllers\CampaignController::class, 'index'])->name('merchant.campaign.index');
     Route::get('/campaigns/all', [App\Http\Controllers\CampaignController::class, 'all'])->name('merchant.campaign.all');
+
+    Route::get('/return-request', [App\Http\Controllers\BalanceTransferController::class, 'returnRequest'])->name('returnRequest');
 });
 
 // General Routes

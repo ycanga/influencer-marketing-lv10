@@ -110,7 +110,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Token</td>
+                                        <td>token</td>
                                         <td>
                                             Bu parametre ile işlemin gerçekleştiği kullanıcının token'ını
                                             belirleyebilirsiniz. ( Profil sayfasında yer alan token bilgisini kullanabilirsiniz. )
