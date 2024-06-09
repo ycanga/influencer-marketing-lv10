@@ -29,6 +29,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/campaigns/all', [App\Http\Controllers\CampaignController::class, 'all'])->name('merchant.campaign.all');
 
     Route::get('/return-request', [App\Http\Controllers\BalanceTransferController::class, 'returnRequest'])->name('returnRequest');
+
+    // User Profile
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/disable', [App\Http\Controllers\ProfileController::class, 'disable'])->name('profile.disable');
+    Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
 
 // General Routes
@@ -63,8 +68,6 @@ Route::middleware(['auth', 'role.control'])->group(function () {
     Route::get('/users/{id}/unblock', [App\Http\Controllers\Admin\UserController::class, 'unblock'])->name('admin.user.unblock');
     Route::get('/users/{id}/role-update', [App\Http\Controllers\Admin\UserController::class, 'updateRole'])->name('admin.user.role');
     Route::get('/users/{id}/delete', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.user.delete');
-
-
 });
 
 // Merchant Routes

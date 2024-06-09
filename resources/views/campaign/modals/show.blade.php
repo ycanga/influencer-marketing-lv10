@@ -23,7 +23,6 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="desc">Kampanya Açıklaması</label>
-                                        {{-- <input type="text" class="form-control" id="desc" disabled> --}}
                                         <textarea id="desc" cols="30" rows="5" class="form-control" disabled></textarea>
                                     </div>
                                     <div class="form-group mb-3">

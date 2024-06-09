@@ -7,10 +7,10 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Kayıt Ol - {{$settings->site_title}}</title>
+    <title>Kayıt Ol - {{ $settings->site_title }}</title>
 
-    <meta name="description" content="{{$settings->site_description}}" />
-    <meta name="keyword" content="{{$settings->site_keywords}}" />
+    <meta name="description" content="{{ $settings->site_description }}" />
+    <meta name="keyword" content="{{ $settings->site_keywords }}" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -56,8 +56,8 @@
                     <div class="card-body">
                         <!-- Logo -->
                         <div class="app-brand justify-content-center">
-                            <a href="index.html" class="app-brand-link gap-2">
-                                <img src="{{$settings->site_logo}}" alt="{{$settings->site_title}}">
+                            <a href="{{ route('home') }}" class="app-brand-link gap-2">
+                                <img src="{{ $settings->site_logo }}" alt="{{ $settings->site_title }}">
                             </a>
                         </div>
                         <!-- /Logo -->
@@ -110,7 +110,8 @@
                             }
                         </script>
 
-                        <form class="mb-3 mt-3" action="{{ route('auth.register') }}" method="POST" id="register-form">
+                        <form class="mb-3 mt-3" action="{{ route('auth.register') }}" method="POST"
+                            id="register-form">
                             @csrf
                             <div class="mb-3">
                                 <label for="role" class="form-label">Kayıt Tipi</label>
@@ -161,7 +162,8 @@
                                     </label>
                                 </div>
                             </div>
-                            <button class="btn btn-primary d-grid w-100" id="register-button" disabled>Kayıt Ol</button>
+                            <button class="btn btn-primary d-grid w-100" id="register-button" disabled>Kayıt
+                                Ol</button>
                         </form>
 
                         <script>
