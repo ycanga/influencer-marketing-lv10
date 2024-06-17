@@ -51,39 +51,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown">
-                                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        @if ($user->status == 'active')
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin.user.block', ['id' => $user->id]) }}"><i
-                                                                    class='bx bxs-user-x'></i> Pasif Yap</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin.user.unblock', ['id' => $user->id]) }}"><i
-                                                                    class='bx bxs-user-check'></i> Aktif Yap</a>
-                                                        @endif
-
-                                                        @if ($user->role == 'user')
-                                                            <button class="dropdown-item" type="button"
-                                                                onclick="upgradeAdmin({{ $user->id }})"
-                                                                href="{{ route('admin.user.role', ['id' => $user->id]) }}"><i
-                                                                    class='bx bx-chevrons-up'></i></i> Admin Yap</button>
-                                                        @elseif($user->role == 'admin')
-                                                            <button class="dropdown-item" type="button"
-                                                                onclick="downgradeAdmin({{ $user->id }})"
-                                                                href="{{ route('admin.user.role', ['id' => $user->id]) }}"><i
-                                                                    class='bx bx-chevrons-down'></i></i> Adminliği
-                                                                Kaldır</button>
-                                                        @endif
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin.user.delete', ['id' => $user->id]) }}"><i
-                                                                class="bx bx-trash me-1"></i> Sil</a>
-                                                    </div>
-                                                </div>
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="{{ route('admin.user.show', ['id' => $user->id]) }}">Detay</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -98,21 +67,4 @@
                 </div>
             </div>
         </div>
-        <script>
-            function upgradeAdmin(id) {
-                if (confirm('Kullanıcıyı admin yapmak istediğinize emin misiniz ?')) {
-                    var url = '{{ route('admin.user.role', ':id') }}';
-                    url = url.replace(':id', id);
-                    window.location.href = url;
-                }
-            }
-
-            function downgradeAdmin(id) {
-                if (confirm('Kullanıcıyı user yapmak istediğinize emin misiniz ?')) {
-                    var url = '{{ route('admin.user.role', ':id') }}';
-                    url = url.replace(':id', id);
-                    window.location.href = url;
-                }
-            }
-        </script>
     @endsection

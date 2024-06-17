@@ -57,10 +57,16 @@
                                 </td>
                             </tr>
                         @endforeach
-                        @if ($supports->count() < 1)
+                        @if ($supports->count() < 1 && auth()->user()->role == 'user')
                             <tr>
                                 <td colspan="5" class="text-center">
                                     <b>Henüz destek talebi oluşturmadınız.</b>
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <b>Henüz destek talebi oluşturmadı.</b>
                                 </td>
                             </tr>
                         @endif

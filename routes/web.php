@@ -68,6 +68,8 @@ Route::middleware(['auth', 'role.control'])->group(function () {
     Route::get('/users/{id}/unblock', [App\Http\Controllers\Admin\UserController::class, 'unblock'])->name('admin.user.unblock');
     Route::get('/users/{id}/role-update', [App\Http\Controllers\Admin\UserController::class, 'updateRole'])->name('admin.user.role');
     Route::get('/users/{id}/delete', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.user.delete');
+    Route::get('/users/{id}/show', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.user.show');
+    Route::post('/users/{id}/update', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.user.update');
 });
 
 // Merchant Routes

@@ -12,6 +12,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Marka Adı</th>
                             <th>Kampanya Adı</th>
                             <th>Kampanya Tipi</th>
                             <th>Görüntülenme</th>
@@ -25,6 +26,9 @@
                             <tr>
                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                     <strong>#{{ $item->id }}</strong>
+                                </td>
+                                <td>
+                                    {{ $item->merchant->name }}
                                 </td>
                                 <td>
                                     {{ $item->name }}
