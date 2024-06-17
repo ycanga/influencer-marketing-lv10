@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->user()->id,
             'phone' => 'required|numeric',
         ];
     }
@@ -44,6 +44,7 @@ class ProfileRequest extends FormRequest
             'email.string' => 'E-posta alanı metin tipinde olmalıdır.',
             'email.email' => 'E-posta alanı geçerli bir e-posta adresi olmalıdır.',
             'email.max' => 'E-posta alanı en fazla 255 karakter olabilir.',
+            'email.unique' => 'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.',
             'phone.required' => 'Telefon alanı zorunludur.',
             'phone.numeric' => 'Telefon alanı sayısal bir değer olmalıdır.',
             'photo.required' => 'Fotoğraf alanı zorunludur.',
