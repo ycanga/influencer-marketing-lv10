@@ -49,7 +49,7 @@ class CampaignController extends Controller
             return response()->json(['error' => 'Kampanya kullanıcısı bulunamadı.'], 404);
         }
 
-        $campaignUser->revenue = $request->purchaseValue;
+        $campaignUser->revenue = $campaignUser->revenue + $request->purchaseValue;
         $campaignUser->inf_revenue = $campaignUser->inf_revenue + $infRevenue;
         $campaignUser->save();
     }

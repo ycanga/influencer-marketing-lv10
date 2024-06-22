@@ -152,7 +152,7 @@
                                     <li>
                                         <a class="dropdown-item" href="{{ route('auth.logout') }}">
                                             <i class="bx bx-power-off me-2 text-danger"></i>
-                                            <span class="align-middle">Log Out</span>
+                                            <span class="align-middle">Çıkış Yap</span>
                                         </a>
                                     </li>
                                 </ul>

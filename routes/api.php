@@ -19,3 +19,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/campaigns/purchase/success', [App\Http\Controllers\Api\CampaignController::class, 'purchase'])->name('api.campaign.purchase')->middleware('api.token.control');
+
+// Weekly Report
+Route::get('/{userId}/weekly-report/{date?}', [App\Http\Controllers\HomeController::class, 'weeklyRevenue'])->name('weekly.get');
