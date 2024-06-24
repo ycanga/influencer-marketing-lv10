@@ -16,6 +16,6 @@ class CampaignUsers extends Model
 
     public function campaigns()
     {
-        return $this->belongsTo(Campaigns::class, 'campaign_id')->select('id', 'name', 'type');
+        return $this->belongsTo(Campaigns::class, 'campaign_id')->select('id', 'name', 'type', 'image');
     }
 }

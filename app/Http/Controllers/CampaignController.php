@@ -78,7 +78,7 @@ class CampaignController extends Controller
 
         if ($campaign->type == 'click') {
             $campaignType = 'tbm';
-        } else if ($campaign->type == 'sale') {
+        } else if ($campaign->type == 'sales') {
             $campaignType = 'sbm';
         } else if ($campaign->type == 'multiple') {
             $campaignType = 'ibm';
@@ -120,7 +120,7 @@ class CampaignController extends Controller
                 'tbm' => 'required|numeric',
                 'multipleClick' => 'required',
             ]);
-        } else if ($request->type == 'sale') {
+        } else if ($request->type == 'sales') {
             $request->validate([
                 'sbm' => 'required|numeric',
             ]);

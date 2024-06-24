@@ -14,9 +14,8 @@ class HomeController extends Controller
     {
         $activeUserCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
         $campaigns = Campaigns::where('status', 'active')->whereNotIn('id', $activeUserCampaigns->pluck('campaign_id'))->with('merchant')->orderBy('created_at', 'desc')->limit(5)->get();
-
+        
         if (auth()->user()->role == 'merchant') {
-
             // Kullanıcıya ait tüm kampanyaların revenue değerlerini alın
             $userCampaigns = Campaigns::where('user_id', auth()->user()->id)->get();
             $campaignsRevenue = CampaignUserLogs::whereIn('campaign_id', $userCampaigns->pluck('id'))->sum('revenue');
@@ -64,17 +63,6 @@ class HomeController extends Controller
                 $percentageChange = $lastWeekRevenue > 0 ? 100 : 0;
             }
 
-            // $dates = $this->convertWeek();
-
-            // //  Haftalık gelirler
-            // $weeklyRevenue = CampaignUsers::whereIn('campaign_id', $allCampaigns)
-            //     ->whereBetween('created_at', [$dates['start'], $dates['end']])
-            //     ->selectRaw('sum(revenue) as revenue, DATE(created_at) as date')
-            //     ->groupBy('date')
-            //     ->get();
-
-            //     dd($weeklyRevenue);
-
             return view('home', [
                 'campaigns' => $campaigns,
                 'activeUserCampaigns' => $activeUserCampaigns,
@@ -85,6 +73,38 @@ class HomeController extends Controller
                 'campaignsRevenue' => $campaignsRevenue,
                 'campaignsInfluencerRevenue' => $campaignsInfluencerRevenue,
             ]);
+        }
+
+        if (auth()->user()->role == 'user') {
+            $allCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->with('campaigns')->orderBy('created_at', 'desc')->limit(5)->get();
+            $totalRevenue = CampaignUsers::where('user_id', auth()->user()->id)->sum('revenue');
+
+            $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
+            
+            // Kampanya tipi sayıları
+            $campaignTypes = Campaigns::whereIn('id', $userCampaigns->pluck('campaign_id'))
+                ->selectRaw('type, count(*) as total')
+                ->groupBy('type')
+                ->get();
+
+            $salesRevenue = 0;
+            $clickRevenue = 0;
+
+            dd($userCampaigns);
+
+            foreach ($userCampaigns as $campaign) {
+                if ($campaign->campaigns->type == 'sales') {
+                    $salesRevenue += $campaign->revenue;
+                } else if($campaign->campaigns->type == 'click') {
+                    $clickRevenue += $campaign->revenue;
+                } else {
+                    $salesRevenue += $campaign->revenue;
+                    $clickRevenue += $campaign->revenue;
+                }
+            }
+           
+
+            return view('home', ['campaigns' => $campaigns, 'allCampaigns' => $allCampaigns,'totalRevenue' => $totalRevenue, 'campaignTypes' => $campaignTypes, 'salesRevenue' => $salesRevenue, 'clickRevenue' => $clickRevenue]);
         }
 
         return view('home', ['campaigns' => $campaigns]);
@@ -105,110 +125,56 @@ class HomeController extends Controller
         return $dates;
     }
 
-    // public function weeklyRevenue($user_id = null, $date = null)
-    // {
-    //     // Haftanın 7 gününü içeren dizi oluştur
-    //     $daysOfWeek = [
-    //         'Monday' => 0,
-    //         'Tuesday' => 0,
-    //         'Wednesday' => 0,
-    //         'Thursday' => 0,
-    //         'Friday' => 0,
-    //         'Saturday' => 0,
-    //         'Sunday' => 0,
-    //     ];
-
-    //     // Verilen tarihi haftanın başlangıç ve bitiş tarihlerine dönüştür
-    //     $dates = $this->convertWeek($date);
-
-    //     // Kullanıcıya ait tüm kampanyaları alın
-    //     $allCampaigns = Campaigns::where('user_id', $user_id ?? auth()->user()->id)
-    //         ->with('merchant')
-    //         ->orderBy('created_at', 'desc')
-    //         ->limit(5)
-    //         ->pluck('id');
-
-    //     // Haftalık gelirler
-    //     $startOfDay = Carbon::parse($dates['start'])->startOfDay();
-    //     $endOfDay = Carbon::parse($dates['end'])->endOfDay();
-
-    //     $weeklyRevenue = CampaignUsers::whereIn('campaign_id', $allCampaigns)
-    //         ->whereBetween('created_at', [$startOfDay, $endOfDay])
-    //         ->selectRaw('sum(revenue) as revenue, DATE(created_at) as date')
-    //         ->groupBy('date')
-    //         ->get();
-
-
-    //     // Günlük gelirleri günlere göre diziye ekle
-    //     foreach ($weeklyRevenue as $revenue) {
-    //         $dayOfWeek = \Carbon\Carbon::parse($revenue->date)->format('l'); // Günü elde et
-    //         $daysOfWeek[$dayOfWeek] = $revenue->revenue;
-    //     }
-
-    //     // Günleri istenen sırada döndürmek için bir diziye ekleyin
-    //     $weeklyData = [];
-
-    //     foreach ($daysOfWeek as $day => $revenue) {
-    //         $weeklyData[] = [
-    //             'day' => $day,
-    //             'revenue' => $revenue
-    //         ];
-    //     }
-
-    //     return response()->json($weeklyData);
-    // }
-
     public function weeklyRevenue($user_id = null, $date = null)
-{
-    // Türkçe gün adlarını içeren bir dizi oluştur
-    \Carbon\Carbon::setLocale('tr');
-    $daysOfWeek = [
-        'Pazartesi' => 0,
-        'Salı' => 0,
-        'Çarşamba' => 0,
-        'Perşembe' => 0,
-        'Cuma' => 0,
-        'Cumartesi' => 0,
-        'Pazar' => 0,
-    ];
-
-    // Verilen tarihi haftanın başlangıç ve bitiş tarihlerine dönüştür
-    $dates = $this->convertWeek($date);
-
-    // Kullanıcıya ait tüm kampanyaları alın
-    $allCampaigns = Campaigns::where('user_id', $user_id ?? auth()->user()->id)
-        ->with('merchant')
-        ->orderBy('created_at', 'desc')
-        ->limit(5)
-        ->pluck('id');
-
-    // Haftalık gelirler
-    $startOfDay = Carbon::parse($dates['start'])->startOfDay();
-    $endOfDay = Carbon::parse($dates['end'])->endOfDay();
-
-    $weeklyRevenue = CampaignUsers::whereIn('campaign_id', $allCampaigns)
-        ->whereBetween('created_at', [$startOfDay, $endOfDay])
-        ->selectRaw('sum(revenue) as revenue, DATE(created_at) as date')
-        ->groupBy('date')
-        ->get();
-
-    // Günlük gelirleri günlere göre diziye ekle
-    foreach ($weeklyRevenue as $revenue) {
-        $dayOfWeek = \Carbon\Carbon::parse($revenue->date)->translatedFormat('l'); // Türkçe gün adını elde et
-        $daysOfWeek[$dayOfWeek] = $revenue->revenue;
-    }
-
-    // Günleri istenen sırada döndürmek için bir diziye ekleyin
-    $weeklyData = [];
-
-    foreach ($daysOfWeek as $day => $revenue) {
-        $weeklyData[] = [
-            'day' => $day,
-            'revenue' => $revenue
+    {
+        // Türkçe gün adlarını içeren bir dizi oluştur
+        \Carbon\Carbon::setLocale('tr');
+        $daysOfWeek = [
+            'Pazartesi' => 0,
+            'Salı' => 0,
+            'Çarşamba' => 0,
+            'Perşembe' => 0,
+            'Cuma' => 0,
+            'Cumartesi' => 0,
+            'Pazar' => 0,
         ];
+
+        // Verilen tarihi haftanın başlangıç ve bitiş tarihlerine dönüştür
+        $dates = $this->convertWeek($date);
+
+        // Kullanıcıya ait tüm kampanyaları alın
+        $allCampaigns = Campaigns::where('user_id', $user_id ?? auth()->user()->id)
+            ->with('merchant')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->pluck('id');
+
+        // Haftalık gelirler
+        $startOfDay = Carbon::parse($dates['start'])->startOfDay();
+        $endOfDay = Carbon::parse($dates['end'])->endOfDay();
+
+        $weeklyRevenue = CampaignUsers::whereIn('campaign_id', $allCampaigns)
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->selectRaw('sum(revenue) as revenue, DATE(created_at) as date')
+            ->groupBy('date')
+            ->get();
+
+        // Günlük gelirleri günlere göre diziye ekle
+        foreach ($weeklyRevenue as $revenue) {
+            $dayOfWeek = \Carbon\Carbon::parse($revenue->date)->translatedFormat('l'); // Türkçe gün adını elde et
+            $daysOfWeek[$dayOfWeek] = $revenue->revenue;
+        }
+
+        // Günleri istenen sırada döndürmek için bir diziye ekleyin
+        $weeklyData = [];
+
+        foreach ($daysOfWeek as $day => $revenue) {
+            $weeklyData[] = [
+                'day' => $day,
+                'revenue' => $revenue
+            ];
+        }
+
+        return response()->json($weeklyData);
     }
-
-    return response()->json($weeklyData);
-}
-
 }
