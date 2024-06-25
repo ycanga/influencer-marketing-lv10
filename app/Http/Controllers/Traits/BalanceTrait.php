@@ -10,7 +10,7 @@ use App\Models\CampaignUsers;
 
 class BalanceTrait
 {
-    public function updateBalance($userId, $amount, $campaignUserID = null, $campaignID=null)
+    public function updateBalance($userId, $amount, $campaignUserID = null, $campaignID=null, $purchaseValue=null)
     {
         $user = User::find($userId);
         $user->balance += $amount;

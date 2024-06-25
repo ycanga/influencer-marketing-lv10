@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+// Campaign Purchase
 Route::post('/campaigns/purchase/success', [App\Http\Controllers\Api\CampaignController::class, 'purchase'])->name('api.campaign.purchase')->middleware('api.token.control');
 
-// Weekly Report
+// Weekly Report for Merchant
 Route::get('/{userId}/weekly-report/{date?}', [App\Http\Controllers\HomeController::class, 'weeklyRevenue'])->name('weekly.get');
+
+// Weekly Report for Influencer
+Route::get('/{userId}/weekly-report-inf/{date?}', [App\Http\Controllers\HomeController::class, 'infWeeklyRevenue'])->name('inf.weekly.get');

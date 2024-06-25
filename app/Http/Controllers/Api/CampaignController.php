@@ -9,6 +9,8 @@ use App\Http\Requests\PurchaseApiRequest;
 use App\Models\Campaigns;
 use App\Http\Controllers\Traits\BalanceTrait;
 use App\Models\CampaignUserLogs;
+use App\Models\User;
+use App\Models\Settings;
 
 class CampaignController extends Controller
 {
@@ -27,6 +29,16 @@ class CampaignController extends Controller
 
         $campaignUser->view_count = $campaignUser->view_count + 1;
         $campaignUser->save();
+
+        $campaign = Campaigns::find($request->campaignId);
+        if(!$campaign){
+            return response()->json(['error' => 'Kampanya bulunamadı.'], 404);
+        }
+        
+        // Marka kullanıcısından satın alma komisyonu düşülür.
+        $settings = Settings::first();
+        $findCampaignUser = User::find($campaign->user_id);
+        $findCampaignUser->balance -= $request->purchaseValue * $settings->site_balance_rate / 100;
 
         $this->balanceTrait->updateBalance($campaignUser->user_id, $this->calculateInfRevenue($request->purchaseValue, $campaignUser->campaign_id), null, $campaignUser->campaign_id);
         $this->updateCampaignUserLogs($request, $this->calculateInfRevenue($request->purchaseValue, $campaignUser->campaign_id));

@@ -37,15 +37,25 @@
                                     placeholder="Anahtar kelimeleri giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
-                                <label for="site_keywords">Minimum Bakiye Tutarı (₺)</label>
+                                <label for="site_min_balance">Minimum Bakiye Tutarı (₺)</label>
                                 <div id="defaultFormControlHelp" class="form-text">
                                     <b class="text-danger">**</b>
                                     Minimum bakiye tutarı, kullanıcıların site üzerinden para yatırırken en az ne kadar
                                     yatırabileceğini belirler.
                                 </div>
-                                <input type="text" name="site_min_balance" id="site_min_balance" class="form-control"
+                                <input type="number" name="site_min_balance" id="site_min_balance" class="form-control"
                                     value="{{ $settings->site_min_balance ?? '' }}"
                                     placeholder="Minimum bakiye tutarı giriniz..." required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="site_balance_rate">Kazanç Oranı (%)</label>
+                                <div id="defaultFormControlHelp" class="form-text">
+                                    <b class="text-danger">**</b>
+                                   Girilen oran, markaların Kampanya satışlarından elde ettikleri kazançlardan siteye ödeyeceği komisyon oranını belirler.
+                                </div>
+                                <input type="number" name="site_balance_rate" id="site_balance_rate" class="form-control"
+                                    value="{{ $settings->site_balance_rate ?? '' }}"
+                                    placeholder="Kazanç oranı giriniz..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label for="site_logo">Site Logosu</label>
