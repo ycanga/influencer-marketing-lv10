@@ -16,7 +16,7 @@
                     data-bs-offset="0,1"
                     data-bs-placement="bottom"
                     data-bs-html="true"
-                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{$settings->site_min_balance}}₺) altında lütfen yükleme yapın. !</span>" @endif>
+                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{ $settings->site_min_balance }}₺) altında lütfen yükleme yapın. !</span>" @endif>
                     Mevcut Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }} text-sm">{{ $balance }} TL</b>
                 </p>
             </div>
@@ -119,6 +119,12 @@
             <div data-i18n="Destek ve Yardım">Destek ve Yardım</div>
         </a>
     </li>
+    <li class="menu-item {{ request()->routeIs('faq.index') ? 'active' : '' }}">
+        <a href="{{ route('faq.index') }}" class="menu-link">
+            <i class='menu-icon tf-icons bx bx-conversation'></i>
+            <div data-i18n="Destek ve Yardım">Sıkça Sorulan Sorular</div>
+        </a>
+    </li>
 
     @admin
         <!-- Settings -->
@@ -133,7 +139,7 @@
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
         <li class="menu-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
             <a href="{{ route('admin.user.index') }}" class="menu-link">
-                <i class='menu-icon tf-icons bx bxs-user-account' ></i>
+                <i class='menu-icon tf-icons bx bxs-user-account'></i>
                 <div data-i18n="Kullanıcılar">Kullanıcılar</div>
             </a>
         </li>

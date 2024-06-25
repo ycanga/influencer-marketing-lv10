@@ -37,6 +37,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Refresh API Key
     Route::get('/profile/refresh-api-key', [App\Http\Controllers\ProfileController::class, 'refreshApiKey'])->name('profile.refreshApiKey');
+
+    // S.S.S
+    Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq.index');
+    Route::post('/faq', [App\Http\Controllers\FaqController::class, 'store'])->name('faq.store');
+    Route::get('/faq/{id}/delete', [App\Http\Controllers\FaqController::class, 'destroy'])->name('faq.destroy');
+    Route::get('/faq/{id}/up', [App\Http\Controllers\FaqController::class, 'orderUp'])->name('faq.up');
+    Route::get('/faq/{id}/down', [App\Http\Controllers\FaqController::class, 'orderDown'])->name('faq.down');
+    Route::get('/faq/{id}/status', [App\Http\Controllers\FaqController::class, 'statusUpdate'])->name('faq.status');
 });
 
 // General Routes
