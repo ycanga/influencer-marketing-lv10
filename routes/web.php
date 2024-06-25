@@ -34,6 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/disable', [App\Http\Controllers\ProfileController::class, 'disable'])->name('profile.disable');
     Route::post('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+    // Refresh API Key
+    Route::get('/profile/refresh-api-key', [App\Http\Controllers\ProfileController::class, 'refreshApiKey'])->name('profile.refreshApiKey');
 });
 
 // General Routes

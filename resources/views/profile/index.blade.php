@@ -95,6 +95,35 @@
                         </form>
                         <!-- /Account -->
                     </div>
+                    @merchant('true')
+                        <div class="card mb-3">
+                            <h5 class="card-header">API Key ( <b class="text-danger">!</b> )</h5>
+                            <div class="card-body">
+                                <div class="mb-3 col-12 mb-0">
+                                    <div class="alert alert-info">
+                                        <h6 class="alert-heading fw-bold mb-1 text-danger">Dikkat!</h6>
+                                        </h6>
+                                        <p class="mb-0">
+                                            API Key, uygulamalarınızın ve servislerinizin güvenli bir şekilde iletişim
+                                            kurabilmesi için kullanılan bir anahtardır. API Key'iniz size özeldir ve kimseyle
+                                            paylaşmamanız gerekmektedir.
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group col-8">
+                                            <input type="password" class="form-control" id="api-key-input"
+                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                                aria-describedby="api-key" value="{{ auth()->user()->bearer_token }}" />
+                                            <span id="api-key-toggle" class="input-group-text cursor-pointer">
+                                                <i class="bx bx-hide"></i>
+                                            </span>
+                                            <a href="{{route('profile.refreshApiKey')}}" class="btn btn-primary">Yenile</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endmerchant
                     <div class="card">
                         <h5 class="card-header">Hesabı Sil</h5>
                         <div class="card-body">
@@ -149,4 +178,26 @@
             }
         });
     </script>
+
+    @merchant('true')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const apiKeyInput = document.getElementById('api-key-input');
+                const apiKeyToggle = document.getElementById('api-key-toggle');
+                const icon = apiKeyToggle.querySelector('i');
+
+                apiKeyToggle.addEventListener('click', function() {
+                    if (apiKeyInput.type === 'password') {
+                        apiKeyInput.type = 'text';
+                        icon.classList.remove('bx-hide');
+                        icon.classList.add('bx-show');
+                    } else {
+                        apiKeyInput.type = 'password';
+                        icon.classList.remove('bx-show');
+                        icon.classList.add('bx-hide');
+                    }
+                });
+            });
+        </script>
+    @endmerchant
 @endsection
