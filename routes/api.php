@@ -22,3 +22,6 @@ Route::get('/{userId}/weekly-report/{date?}', [App\Http\Controllers\HomeControll
 
 // Weekly Report for Influencer
 Route::get('/{userId}/weekly-report-inf/{date?}', [App\Http\Controllers\HomeController::class, 'infWeeklyRevenue'])->name('inf.weekly.get');
+
+// Weekly Report for Admin
+Route::get('/weekly-report-admin/{date?}', [App\Http\Controllers\HomeController::class, 'adminWeeklyRevenue'])->name('admin.weekly.get');

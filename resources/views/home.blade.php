@@ -44,7 +44,7 @@
                                                 data-bs-offset="0,4"
                                                 data-bs-placement="bottom"
                                                 data-bs-html="true"
-                                                title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{$settings->site_min_balance}}₺) altında lütfen yükleme yapın. !</span>" 
+                                                title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{ $settings->site_min_balance }}₺) altında lütfen yükleme yapın. !</span>" 
                                                 @else
                                                     data-bs-toggle="modal" data-bs-target="#createModal" @endif>
 
@@ -269,11 +269,15 @@
                     <!-- Pills -->
                 @enduser
 
+                @admin
+                    @include('components.home-components.admin.statistics')
+                @endadmin
+
                 @merchant
                     @include('components.home-components.merchant.order-statistics')
                 @endmerchant
                 @influencer
-                {{-- @dd($campaignTypes) --}}
+                    {{-- @dd($campaignTypes) --}}
                     @include('components.home-components.influencer.order-statistics')
                 @endinfluencer
             </div>
@@ -295,6 +299,5 @@
     @endinfluencer
 
     @merchant
-        
     @endmerchant
 @endsection

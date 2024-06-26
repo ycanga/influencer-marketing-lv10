@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Campaigns;
 use App\Models\CampaignUserLogs;
 use App\Models\CampaignUsers;
+use App\Models\Supports;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\MoneyDemands;
+use App\Models\BalanceHistory;
 
 class HomeController extends Controller
 {
@@ -90,7 +94,16 @@ class HomeController extends Controller
             return view('home', ['campaigns' => $campaigns, 'allCampaigns' => $allCampaigns, 'totalRevenue' => $totalRevenue, 'campaignTypes' => $campaignTypes, 'salesRevenue' => $userCampaigns->sum('view_count'), 'clickRevenue' => $userCampaigns->sum('click_count')]);
         }
 
-        return view('home', ['campaigns' => $campaigns]);
+        if(auth()->user()->role == 'admin'){
+            $allCampaigns = Campaigns::where('status', 'active')->with('merchant')->orderBy('created_at', 'desc')->get();
+            $users = User::all();
+            $supportCount = Supports::where('status', 'pending')->get();
+            $moneyDemands = MoneyDemands::where('status', 'pending')->get();
+            $balanceHistory = BalanceHistory::where('status', 'pending')->where('type', 'iban')->get();
+            // $campaignLogs = CampaignUserLogs::selectRaw('sum(revenue) as revenue, DATE(created_at) as date')->groupBy('date')->get();
+
+            return view('home', ['campaignsCount' => $allCampaigns->count(), 'influencerCount' => $users->where('role', 'user')->count(), 'merchantCount' => $users->where('role', 'merchant')->count(), 'supportCount' => $supportCount->count(), 'moneyDemands' => $moneyDemands->count(), 'balanceHistory' => $balanceHistory->count()]);
+        }
     }
 
     public function convertWeek($date = null)
@@ -179,11 +192,6 @@ class HomeController extends Controller
         $dates = $this->convertWeek($date);
 
         // Kullanıcıya ait tüm kampanyaları alın
-        // $allCampaigns = Campaigns::where('user_id', $user_id ?? auth()->user()->id)
-        //     ->with('merchant')
-        //     ->orderBy('created_at', 'desc')
-        //     ->limit(5)
-        //     ->pluck('id');
         $allCampaigns = CampaignUsers::where('user_id', $user_id ?? auth()->user()->id)
             ->with('campaigns')
             ->orderBy('created_at', 'desc')
@@ -197,6 +205,51 @@ class HomeController extends Controller
         $weeklyRevenue = CampaignUserLogs::whereIn('campaign_id', $allCampaigns)
             ->whereBetween('created_at', [$startOfDay, $endOfDay])
             ->selectRaw('sum(inf_revenue) as revenue, DATE(created_at) as date')
+            ->groupBy('date')
+            ->get();
+
+        // Günlük gelirleri günlere göre diziye ekle
+        foreach ($weeklyRevenue as $revenue) {
+            $dayOfWeek = \Carbon\Carbon::parse($revenue->date)->translatedFormat('l'); // Türkçe gün adını elde et
+            $daysOfWeek[$dayOfWeek] = $revenue->revenue;
+        }
+
+        // Günleri istenen sırada döndürmek için bir diziye ekleyin
+        $weeklyData = [];
+
+        foreach ($daysOfWeek as $day => $revenue) {
+            $weeklyData[] = [
+                'day' => $day,
+                'revenue' => $revenue
+            ];
+        }
+
+        return response()->json($weeklyData);
+    }
+
+    public function adminWeeklyRevenue($date = null)
+    {
+        // Türkçe gün adlarını içeren bir dizi oluştur
+        \Carbon\Carbon::setLocale('tr');
+        $daysOfWeek = [
+            'Pazartesi' => 0,
+            'Salı' => 0,
+            'Çarşamba' => 0,
+            'Perşembe' => 0,
+            'Cuma' => 0,
+            'Cumartesi' => 0,
+            'Pazar' => 0,
+        ];
+
+        // Verilen tarihi haftanın başlangıç ve bitiş tarihlerine dönüştür
+        $dates = $this->convertWeek($date);
+
+        // Haftalık gelirler
+        $startOfDay = Carbon::parse($dates['start'])->startOfDay();
+        $endOfDay = Carbon::parse($dates['end'])->endOfDay();
+
+        $weeklyRevenue = CampaignUserLogs::whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->selectRaw('sum(revenue) as revenue, DATE(created_at) as date')
             ->groupBy('date')
             ->get();
 
