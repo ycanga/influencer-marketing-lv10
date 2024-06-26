@@ -94,13 +94,12 @@ class HomeController extends Controller
             return view('home', ['campaigns' => $campaigns, 'allCampaigns' => $allCampaigns, 'totalRevenue' => $totalRevenue, 'campaignTypes' => $campaignTypes, 'salesRevenue' => $userCampaigns->sum('view_count'), 'clickRevenue' => $userCampaigns->sum('click_count')]);
         }
 
-        if(auth()->user()->role == 'admin'){
+        if (auth()->user()->role == 'admin') {
             $allCampaigns = Campaigns::where('status', 'active')->with('merchant')->orderBy('created_at', 'desc')->get();
             $users = User::all();
             $supportCount = Supports::where('status', 'pending')->get();
             $moneyDemands = MoneyDemands::where('status', 'pending')->get();
             $balanceHistory = BalanceHistory::where('status', 'pending')->where('type', 'iban')->get();
-            // $campaignLogs = CampaignUserLogs::selectRaw('sum(revenue) as revenue, DATE(created_at) as date')->groupBy('date')->get();
 
             return view('home', ['campaignsCount' => $allCampaigns->count(), 'influencerCount' => $users->where('role', 'user')->count(), 'merchantCount' => $users->where('role', 'merchant')->count(), 'supportCount' => $supportCount->count(), 'moneyDemands' => $moneyDemands->count(), 'balanceHistory' => $balanceHistory->count()]);
         }
