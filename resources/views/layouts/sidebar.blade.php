@@ -12,11 +12,12 @@
                     }
                 @endphp
                 <p href="#balance" class="text-balance"
+                    @merchant
                     @if ($balance < $settings->site_min_balance) data-bs-toggle="tooltip"
                     data-bs-offset="0,1"
                     data-bs-placement="bottom"
                     data-bs-html="true"
-                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{ $settings->site_min_balance }}₺) altında lütfen yükleme yapın. !</span>" @endif>
+                    title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{ $settings->site_min_balance }}₺) altında lütfen yükleme yapın. !</span>" @endif @endmerchant>
                     Mevcut Bakiyeniz: &nbsp; <b class="text-{{ $statusColor }} text-sm">{{ $balance }} TL</b>
                 </p>
             </div>

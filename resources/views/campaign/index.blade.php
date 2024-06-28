@@ -19,7 +19,7 @@
                         data-bs-offset="0,4"
                         data-bs-placement="bottom"
                         data-bs-html="true"
-                        title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{$settings->site_min_balance}}₺) altında lütfen yükleme yapın. !</span>" 
+                        title="<span class='text-sm'>Bakiyeniz minimum tutarın (Min. {{ $settings->site_min_balance }}₺) altında lütfen yükleme yapın. !</span>" 
                         @else
                             data-bs-toggle="modal" data-bs-target="#createModal" @endif>
 
@@ -32,6 +32,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            @influencer
+                                <th>Marka Adı</th>
+                            @endinfluencer
                             <th>Kampanya Adı</th>
                             <th>Kampanya Tipi</th>
                             <th>Görüntülenme</th>
@@ -52,6 +55,11 @@
                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                     <strong>#{{ $item->id }}</strong>
                                 </td>
+                                @influencer
+                                    <td>
+                                        {{ $item->merchant->name }}
+                                    </td>
+                                @endinfluencer
                                 <td>
                                     {{ $item->name }}
                                 </td>
@@ -100,8 +108,8 @@
                                         </button>
                                     @endinfluencer
                                     @merchant('true')
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="deleteCampaign({{ $item->id }})">Sil <i class="bx bx-trash"></i> </button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteCampaign({{ $item->id }})">Sil
+                                            <i class="bx bx-trash"></i> </button>
                                     @endmerchant
                                     @admin
                                         @if ($item->status == 'pending')
