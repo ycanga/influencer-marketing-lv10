@@ -17,7 +17,7 @@ class BalanceTransferController extends Controller
 
     public function index()
     {
-        $balanceTransfers = BalanceHistory::where('status', 'pending')->where('type', 'iban')->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $balanceTransfers = BalanceHistory::where('type', 'iban')->with('user')->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.balance.index', ['balanceTransfers' => $balanceTransfers]);
     }
 

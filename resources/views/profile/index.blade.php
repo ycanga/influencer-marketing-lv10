@@ -96,7 +96,7 @@
                         <!-- /Account -->
                     </div>
                     @merchant('true')
-                        <div class="card mb-3">
+                        <div class="card mb-3" id="apiKey">
                             <h5 class="card-header">API Key ( <b class="text-danger">!</b> )</h5>
                             <div class="card-body">
                                 <div class="mb-3 col-12 mb-0">

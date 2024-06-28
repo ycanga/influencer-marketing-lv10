@@ -170,7 +170,7 @@ class BalanceTransferController extends Controller
 
     public function returnRequest(Request $request)
     {
-        $test = $request->paymentinput;
+        $paymentInput = $request->paymentinput;
 
         $data = $this->balanceTrait->requiredData();
 
@@ -179,6 +179,6 @@ class BalanceTransferController extends Controller
         $paymentModels = $data['paymentModels'];
         $lastId = $data['lastId'];
 
-        return view('balance.index', ['test' => $test, 'userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
+        return view('balance.index', ['paymentInput' => $paymentInput, 'userBalance' => $userBalance, 'totalBalance' => $totalBalance, 'paymentModels' => $paymentModels, 'lastId' => $lastId]);
     }
 }

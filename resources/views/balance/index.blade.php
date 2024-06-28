@@ -4,11 +4,7 @@
 
 @section('content')
     @include('layouts.alert')
-    {!! $test ?? '' !!}
-
-
-    {{-- @dd($test) --}}
-
+    {!! $paymentInput ?? '' !!}
     <div class="container mt-3">
         <div class="card">
             <h5 class="card-header">Bakiye Geçmişi</h5>

@@ -11,7 +11,7 @@ class MoneyDemandController extends Controller
     public function index()
     {
         if(auth()->user()->role == 'admin') {
-            $moneyDemands = MoneyDemands::paginate(10);
+            $moneyDemands = MoneyDemands::with('user')->paginate(10);
         } else {
             $moneyDemands = MoneyDemands::where('user_id', auth()->user()->id)->paginate(10);
         }

@@ -113,7 +113,7 @@
                                         <td>token</td>
                                         <td>
                                             Bu parametre ile işlemin gerçekleştiği kullanıcının token'ını
-                                            belirleyebilirsiniz. ( Profil sayfasında yer alan token bilgisini kullanabilirsiniz. )
+                                            belirleyebilirsiniz. ( <a href="{{route('profile.index')}}#apiKey">Profil sayfasında</a> yer alan token bilgisini kullanabilirsiniz. )
                                         </td>
                                     </tr>
                                     <tr>

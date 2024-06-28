@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MoneyDemands extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name', 'email');
+    }
 }
