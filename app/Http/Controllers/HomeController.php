@@ -27,6 +27,18 @@ class HomeController extends Controller
             $campaignsRevenue = CampaignUserLogs::whereIn('campaign_id', $userCampaigns->pluck('id'))->sum('revenue');
             $campaignsInfluencerRevenue = CampaignUserLogs::whereIn('campaign_id', $userCampaigns->pluck('id'))->sum('inf_revenue');
 
+            // Bugünün başlangıç ve bitiş tarihleri
+            $startOfDay = Carbon::now()->startOfDay();
+            $endOfDay = Carbon::now()->endOfDay();
+
+            $campaignsTodayRevenue = CampaignUserLogs::whereIn('campaign_id', $userCampaigns->pluck('id'))
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->sum('revenue');
+
+            $campaignsTodayInfluencerRevenue = CampaignUserLogs::whereIn('campaign_id', $userCampaigns->pluck('id'))
+                ->whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->sum('inf_revenue');
+
             // Tarih aralıklarını belirleyin
             $oneWeekAgo = Carbon::now()->subWeek();
             $twoWeeksAgo = Carbon::now()->subWeeks(2);
@@ -78,7 +90,9 @@ class HomeController extends Controller
                 'campaignTypes' => $campaignTypes,
                 'campaignsRevenue' => $campaignsRevenue,
                 'campaignsInfluencerRevenue' => $campaignsInfluencerRevenue,
-                'campaignCategories' => $campaignCategories
+                'campaignCategories' => $campaignCategories,
+                'campaignsTodayRevenue' => $campaignsTodayRevenue,
+                'campaignsTodayInfluencerRevenue' => $campaignsTodayInfluencerRevenue
             ]);
         }
 

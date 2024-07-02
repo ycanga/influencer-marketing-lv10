@@ -47,7 +47,13 @@
                                     {{ $item->name }}
                                 </td>
                                 <td>
-                                    {{ $item->type }}
+                                    @if($item->type == 'sales')
+                                        <span class="badge bg-primary">Satış</span>
+                                    @elseif($item->type == 'click')
+                                        <span class="badge bg-primary">Tıklama</span>
+                                    @else
+                                        <span class="badge bg-primary">Çoklu İşlem</span>
+                                    @endif
                                 </td>
                                 <td>
                                     @if ($item->visibility == 'public')

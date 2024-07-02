@@ -69,11 +69,11 @@ class CampaignController extends Controller
             }
         } else {
             $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
-
+            // dd($userCampaigns);
             if($request->has('filterCategory') && $request->filterCategory){
-                $campaigns = Campaigns::where('category_id', $request->filterCategory)->whereNotIn('id', $userCampaigns->pluck('campaign_id'))->with(['merchant','category'])->paginate(10);
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->whereIn('id', $userCampaigns->pluck('campaign_id'))->with(['merchant','category'])->paginate(10);
             }else{
-                $campaigns = Campaigns::whereNotIn('id', $userCampaigns->pluck('campaign_id'))->with(['merchant','category'])->paginate(10);
+                $campaigns = Campaigns::whereIn('id', $userCampaigns->pluck('campaign_id'))->with(['merchant','category'])->paginate(10);
             }
 
             foreach ($campaigns as $campaign) {
@@ -142,6 +142,7 @@ class CampaignController extends Controller
             $request->validate([
                 'sbm' => 'required|numeric',
             ]);
+
         } else if ($request->type == 'click') {
             $request->validate([
                 'tbm' => 'required|numeric',
@@ -152,6 +153,20 @@ class CampaignController extends Controller
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ]);
+        }
+
+        $tbm = 0;
+        $sbm = 0;
+
+        if($request->type == 'sales'){
+            $tbm = 0;
+            $sbm = $request->sbm;
+        }else if($request->type == 'click'){
+            $tbm = $request->tbm;
+            $sbm = 0;
+        }else{
+            $tbm = $request->tbm;
+            $sbm = $request->sbm;
         }
 
         $newCampaign = new Campaigns();
@@ -166,8 +181,8 @@ class CampaignController extends Controller
         $newCampaign->description = $request->desc ?? '';
         $newCampaign->link = $request->link;
         $newCampaign->type = $request->type;
-        $newCampaign->tbm = $request->tbm ?? 0;
-        $newCampaign->sbm = $request->sbm ?? 0;
+        $newCampaign->tbm = $tbm;
+        $newCampaign->sbm = $sbm;
         $newCampaign->ibm = $request->ibm ?? 0;
         $newCampaign->time = $request->time;
         $newCampaign->multiple_click = $request->multipleClick ?? 0;
@@ -213,6 +228,7 @@ class CampaignController extends Controller
             }else{
                 $campaigns = Campaigns::whereNotIn('id', $userCampaigns->pluck('campaign_id'))->where('status', 'active')->with('merchant')->paginate(10);
             }
+
         }
 
         return view('campaign.all', ['campaigns' => $campaigns, 'campaignCategories' => $campaignCategories]);

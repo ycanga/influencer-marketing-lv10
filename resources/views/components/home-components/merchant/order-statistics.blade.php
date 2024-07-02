@@ -81,7 +81,7 @@
                      <div class="card-title d-flex align-items-start justify-content-between">
                          <i class='bx bx-wallet'></i>
                      </div>
-                     <span class="fw-semibold d-block mb-1">Tahmini Satış Kazancınız</span>
+                     <span class="fw-semibold d-block mb-1">Tahmini Satış Kazancınız <b class="text-primary">(Genel)</b></span>
                      <h3 class="card-title text-nowrap mb-2 text-success">{{ $campaignsRevenue }} ₺</h3>
                  </div>
              </div>
@@ -92,8 +92,30 @@
                      <div class="card-title d-flex align-items-start justify-content-between">
                          <i class='bx bx-money'></i>
                      </div>
-                     <span class="fw-semibold d-block mb-1">İşlem Giderleri</span>
+                     <span class="fw-semibold d-block mb-1">İşlem Giderleri <b class="text-primary">(Genel)</b></span>
                      <h3 class="card-title mb-2 text-danger">{{ $campaignsInfluencerRevenue }} ₺</h3>
+                 </div>
+             </div>
+         </div>
+         <div class="col-6 mb-4">
+             <div class="card">
+                 <div class="card-body">
+                     <div class="card-title d-flex align-items-start justify-content-between">
+                         <i class='bx bx-wallet'></i>
+                     </div>
+                     <span class="fw-semibold d-block mb-1">Tahmini Satış Kazancınız <b class="text-primary">(Bugün)</b></span>
+                     <h3 class="card-title text-nowrap mb-2 text-success">{{ $campaignsTodayRevenue }} ₺</h3>
+                 </div>
+             </div>
+         </div>
+         <div class="col-6 mb-4">
+             <div class="card">
+                 <div class="card-body">
+                     <div class="card-title d-flex align-items-start justify-content-between">
+                         <i class='bx bx-money'></i>
+                     </div>
+                     <span class="fw-semibold d-block mb-1">İşlem Giderleri <b class="text-primary">(Bugün)</b></span>
+                     <h3 class="card-title mb-2 text-danger">{{ $campaignsTodayInfluencerRevenue }} ₺</h3>
                  </div>
              </div>
          </div>

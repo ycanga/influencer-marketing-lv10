@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('campaigns', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->nullable()->after('user_id');
-            $table->foreign('category_id')->references('id')->on('campaign_categories');
+            $table->foreign('category_id')->references('id')->on('campaign_categories')->onDelete('cascade');
         });
     }
 

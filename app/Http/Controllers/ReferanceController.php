@@ -21,7 +21,6 @@ class ReferanceController extends Controller
         $mainUrl = $request->getSchemeAndHttpHost() . '/ref/' . $key . '/' . $campaign;
         $refUrl = CampaignUsers::where('short_url', $mainUrl)->first();
         $ip = $this->getClientIp();
-
         if (!$refUrl) {
             return abort(404);
         }
@@ -33,34 +32,34 @@ class ReferanceController extends Controller
             $expireDate = Carbon::parse($findCampaign->time);
             $expireDate = $expireDate->isPast();
         }
-
-
+        
+        
         if (!$findCampaign || $findCampaign->status != 'active' || $expireDate) {
             return abort(404);
         }
-
+        
         $inf_revenue = 0;
         $multiple_click = 0;
         if ($findCampaign->type == 'click' || $findCampaign->type == 'multiple') {
             $inf_revenue = $findCampaign->tbm;
             $multiple_click = $findCampaign->multiple_click;
         }
-
+        
         $log = CampaignUserLogs::where('ip_address', $ip)->where('campaign_id', $refUrl->campaign_id)->first();
         if ($multiple_click) {
             $refUrl->click_count = $refUrl->click_count + 1;
             $refUrl->save();
-
+            
             $this->createLog($refUrl->campaign_id, $refUrl->id, $ip, $inf_revenue, $request->header('User-Agent'), $findCampaign->user_id, $refUrl->user_id);
         } else if (!$log) {
             $refUrl->click_count = $refUrl->click_count + 1;
             $refUrl->save();
-
+            
             $this->createLog($refUrl->campaign_id, $refUrl->id, $ip, $inf_revenue, $request->header('User-Agent'), $findCampaign->user_id, $refUrl->user_id);
         } else {
             $this->createLog($refUrl->campaign_id, $refUrl->id, $ip, 0, $request->header('User-Agent'), $findCampaign->user_id, $refUrl->user_id);
         }
-
+        
         return redirect($refUrl->url . '?ref=' . $key . '&campaign=' . $campaign);
     }
 
