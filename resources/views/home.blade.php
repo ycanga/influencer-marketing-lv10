@@ -67,7 +67,8 @@
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
-                                                        <label>{{ $item->name }}</label>
+                                                        <label>{{ ucfirst($item->merchant->name) }}</label>
+                                                        <label>{{ ucfirst($item->name) }}</label>
                                                         <div class="row">
                                                             @if ($item->sbm && $item->sbm > 0)
                                                                 <div class="col-12 mb-2">
@@ -137,7 +138,8 @@
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
-                                                        <label>{{ $item->name }}</label>
+                                                        <label>{{ ucfirst($item->merchant->name) }}</label>
+                                                        <label>{{ ucfirst($item->name) }}</label>
                                                         <div class="row">
                                                             @if ($item->sbm && $item->sbm > 0)
                                                                 <div class="col-12 mb-2">
@@ -206,7 +208,8 @@
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
                                                         <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
-                                                        <label>{{ $item->name }}</label>
+                                                        <label>{{ ucfirst($item->merchant->name) }}</label>
+                                                        <label>{{ ucfirst($item->name) }}</label>
                                                         <div class="row">
                                                             @if ($item->sbm && $item->sbm > 0)
                                                                 <div class="col-12 mb-2">
