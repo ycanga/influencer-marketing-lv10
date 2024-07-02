@@ -65,7 +65,7 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
+                                                        <img src="{{ asset($item->image ?? $settings->site_favicon)}}"
                                                             alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ ucfirst($item->merchant->name) }}</label>
                                                         <label>{{ ucfirst($item->name) }}</label>
@@ -136,7 +136,7 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
+                                                        <img src="{{ asset($item->image ?? $settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ ucfirst($item->merchant->name) }}</label>
                                                         <label>{{ ucfirst($item->name) }}</label>
@@ -206,7 +206,7 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
+                                                        <img src="{{ asset($item->image ?? $settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ ucfirst($item->merchant->name) }}</label>
                                                         <label>{{ ucfirst($item->name) }}</label>
@@ -280,7 +280,6 @@
                     @include('components.home-components.merchant.order-statistics')
                 @endmerchant
                 @influencer
-                    {{-- @dd($campaignTypes) --}}
                     @include('components.home-components.influencer.order-statistics')
                 @endinfluencer
             </div>

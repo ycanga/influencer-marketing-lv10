@@ -7,6 +7,7 @@ use App\Models\Campaigns;
 use App\Models\CampaignUsers;
 use App\Http\Controllers\Traits\GeneralFunctionsTrait;
 use App\Http\Requests\CampaignRequest;
+use App\Models\CampaignCategories;
 
 class CampaignController extends Controller
 {
@@ -15,11 +16,17 @@ class CampaignController extends Controller
         $this->generalFunctions = new GeneralFunctionsTrait();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $users = [];
+        $campaignCategories = CampaignCategories::all();
         if (auth()->user()->role == 'admin') {
-            $campaigns = Campaigns::with('merchant')->paginate(10);
+            if($request->has('filterCategory') && $request->filterCategory){
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->with(['merchant','category'])->paginate(10);
+            }else{
+                $campaigns = Campaigns::with(['merchant','category'])->paginate(10);
+            }
+
             foreach ($campaigns as $campaign) {
                 // Kampanyaya ait benzersiz kullanıcı sayısını al
                 $uniqueUserCount = CampaignUsers::where('campaign_id', $campaign->id)
@@ -37,7 +44,13 @@ class CampaignController extends Controller
                 $campaign->users = $uniqueUserCount;
             }
         } else if (auth()->user()->role == 'merchant') {
-            $campaigns = Campaigns::where('user_id', auth()->user()->id)->with('merchant')->paginate(10);
+
+            if($request->has('filterCategory') && $request->filterCategory){
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->where('user_id', auth()->user()->id)->with(['merchant','category'])->paginate(10);
+            }else{
+                $campaigns = Campaigns::where('user_id', auth()->user()->id)->with(['merchant','category'])->paginate(10);
+            }
+
             foreach ($campaigns as $campaign) {
                 // Kampanyaya ait benzersiz kullanıcı sayısını al
                 $uniqueUserCount = CampaignUsers::where('campaign_id', $campaign->id)
@@ -56,7 +69,12 @@ class CampaignController extends Controller
             }
         } else {
             $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
-            $campaigns = Campaigns::whereIn('id', $userCampaigns->pluck('campaign_id'))->with('merchant')->paginate(10);
+
+            if($request->has('filterCategory') && $request->filterCategory){
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->whereNotIn('id', $userCampaigns->pluck('campaign_id'))->with(['merchant','category'])->paginate(10);
+            }else{
+                $campaigns = Campaigns::whereNotIn('id', $userCampaigns->pluck('campaign_id'))->with(['merchant','category'])->paginate(10);
+            }
 
             foreach ($campaigns as $campaign) {
                 $userCampaign = $userCampaigns->firstWhere('campaign_id', $campaign->id);
@@ -64,7 +82,7 @@ class CampaignController extends Controller
                 $campaign->short_url = $userCampaign ? $userCampaign->short_url : '';
             }
         }
-        return view('campaign.index', ['campaigns' => $campaigns]);
+        return view('campaign.index', ['campaigns' => $campaigns, 'campaignCategories' => $campaignCategories]);
     }
 
     public function subscribe($id)
@@ -144,6 +162,7 @@ class CampaignController extends Controller
         }
 
         $newCampaign->name = $request->name;
+        $newCampaign->category_id = $request->category_id;
         $newCampaign->description = $request->desc ?? '';
         $newCampaign->link = $request->link;
         $newCampaign->type = $request->type;
@@ -170,17 +189,32 @@ class CampaignController extends Controller
         return redirect()->back()->with('success', 'Kampanya başarıyla silindi.');
     }
 
-    public function all()
+    public function all(Request $request)
     {
+        $campaignCategories = CampaignCategories::all();
         if(auth()->user()->role == 'admin') {
-            $campaigns = Campaigns::where('status', 'active')->with('merchant')->paginate(10);
+
+            if($request->has('filterCategory') && $request->filterCategory){
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->where('status', 'active')->with('merchant')->paginate(10);
+            }else{
+                $campaigns = Campaigns::where('status', 'active')->with('merchant')->paginate(10);
+            }
         } else if(auth()->user()->role == 'merchant') {
-            $campaigns = Campaigns::where('user_id', '!=',auth()->user()->id)->where('status', 'active')->with('merchant')->paginate(10);
+            if($request->has('filterCategory') && $request->filterCategory){
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->where('user_id', '!=',auth()->user()->id)->where('status', 'active')->with('merchant')->paginate(10);
+            }else{
+                $campaigns = Campaigns::where('user_id', '!=',auth()->user()->id)->where('status', 'active')->with('merchant')->paginate(10);
+            }
         } else {
             $userCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
-            $campaigns = Campaigns::whereNotIn('id', $userCampaigns->pluck('campaign_id'))->where('status', 'active')->with('merchant')->paginate(10);
+
+            if($request->has('filterCategory') && $request->filterCategory){
+                $campaigns = Campaigns::where('category_id', $request->filterCategory)->whereNotIn('id', $userCampaigns->pluck('campaign_id'))->where('status', 'active')->with('merchant')->paginate(10);
+            }else{
+                $campaigns = Campaigns::whereNotIn('id', $userCampaigns->pluck('campaign_id'))->where('status', 'active')->with('merchant')->paginate(10);
+            }
         }
 
-        return view('campaign.all', ['campaigns' => $campaigns]);
+        return view('campaign.all', ['campaigns' => $campaigns, 'campaignCategories' => $campaignCategories]);
     }
 }

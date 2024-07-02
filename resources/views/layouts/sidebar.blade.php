@@ -136,6 +136,12 @@
                 <div data-i18n="Genel Ayarlar">Genel Ayarlar</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('admin.categories.settings') ? 'active' : '' }}">
+            <a href="{{ route('admin.categories.settings') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-category'></i>
+                <div data-i18n="Genel Ayarlar">Kampanya Kategorileri</div>
+            </a>
+        </li>
         <!-- Users -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Users</span></li>
         <li class="menu-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">

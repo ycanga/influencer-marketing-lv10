@@ -7,6 +7,19 @@
     <div class="container mt-3">
         <div class="card">
             <h5 class="card-header">Tüm Kampanyalar</h5>
+            <div class="d-flex justify-content-start">
+                <form action="#" method="GET">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="filterCategory" id="filterCategory">
+                            <option value="">Kategori Seçiniz</option>
+                            @foreach ($campaignCategories as $category)
+                                <option value="{{ $category->id }}">{{ ucfirst($category->name) }}</option>
+                            @endforeach
+                        </select>
+                        <button class="btn btn-outline-secondary" type="submit">Ara</button>
+                    </div>
+                </form>
+            </div>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>

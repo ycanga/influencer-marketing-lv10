@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\MoneyDemands;
 use App\Models\BalanceHistory;
+use App\Models\CampaignCategories;
 
 class HomeController extends Controller
 {
@@ -18,6 +19,7 @@ class HomeController extends Controller
     {
         $activeUserCampaigns = CampaignUsers::where('user_id', auth()->user()->id)->get();
         $campaigns = Campaigns::where('status', 'active')->whereNotIn('id', $activeUserCampaigns->pluck('campaign_id'))->with('merchant')->orderBy('created_at', 'desc')->limit(5)->get();
+        $campaignCategories = CampaignCategories::all();
 
         if (auth()->user()->role == 'merchant') {
             // Kullanıcıya ait tüm kampanyaların revenue değerlerini alın
@@ -76,6 +78,7 @@ class HomeController extends Controller
                 'campaignTypes' => $campaignTypes,
                 'campaignsRevenue' => $campaignsRevenue,
                 'campaignsInfluencerRevenue' => $campaignsInfluencerRevenue,
+                'campaignCategories' => $campaignCategories
             ]);
         }
 
@@ -91,7 +94,7 @@ class HomeController extends Controller
                 ->groupBy('type')
                 ->get();
 
-            return view('home', ['campaigns' => $campaigns, 'allCampaigns' => $allCampaigns, 'totalRevenue' => $totalRevenue, 'campaignTypes' => $campaignTypes, 'salesRevenue' => $userCampaigns->sum('view_count'), 'clickRevenue' => $userCampaigns->sum('click_count')]);
+            return view('home', ['campaigns' => $campaigns, 'allCampaigns' => $allCampaigns, 'totalRevenue' => $totalRevenue, 'campaignTypes' => $campaignTypes, 'salesRevenue' => $userCampaigns->sum('view_count'), 'clickRevenue' => $userCampaigns->sum('click_count'), 'campaignCategories' => $campaignCategories]);
         }
 
         if (auth()->user()->role == 'admin') {
@@ -101,7 +104,7 @@ class HomeController extends Controller
             $moneyDemands = MoneyDemands::where('status', 'pending')->get();
             $balanceHistory = BalanceHistory::where('status', 'pending')->where('type', 'iban')->get();
 
-            return view('home', ['campaignsCount' => $allCampaigns->count(), 'influencerCount' => $users->where('role', 'user')->count(), 'merchantCount' => $users->where('role', 'merchant')->count(), 'supportCount' => $supportCount->count(), 'moneyDemands' => $moneyDemands->count(), 'balanceHistory' => $balanceHistory->count()]);
+            return view('home', ['campaignsCount' => $allCampaigns->count(), 'influencerCount' => $users->where('role', 'user')->count(), 'merchantCount' => $users->where('role', 'merchant')->count(), 'supportCount' => $supportCount->count(), 'moneyDemands' => $moneyDemands->count(), 'balanceHistory' => $balanceHistory->count(), 'campaignCategories' => $campaignCategories]);
         }
     }
 

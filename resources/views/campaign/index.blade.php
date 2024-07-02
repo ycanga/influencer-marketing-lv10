@@ -27,15 +27,29 @@
                     </button>
                 </div>
             @endmerchant
+            <div class="d-flex justify-content-start">
+                <form action="#" method="GET">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="filterCategory" id="filterCategory">
+                            <option value="">Kategori Seçiniz</option>
+                            @foreach ($campaignCategories as $category)
+                                <option value="{{ $category->id }}">{{ ucfirst($category->name) }}</option>
+                            @endforeach
+                        </select>
+                        <button class="btn btn-outline-secondary" type="submit">Ara</button>
+                    </div>
+                </form>
+            </div>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            @influencer
+                            @influencer('true')
                                 <th>Marka Adı</th>
                             @endinfluencer
                             <th>Kampanya Adı</th>
+                            <th>Kampanya Kategorisi</th>
                             <th>Kampanya Tipi</th>
                             <th>Görüntülenme</th>
                             @influencer
@@ -55,13 +69,16 @@
                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                     <strong>#{{ $item->id }}</strong>
                                 </td>
-                                @influencer
+                                @influencer('true')
                                     <td>
                                         {{ $item->merchant->name }}
                                     </td>
                                 @endinfluencer
                                 <td>
                                     {{ $item->name }}
+                                </td>
+                                <td>
+                                    {{ ucfirst($item->category->name) }}
                                 </td>
                                 <td>
                                     @if($item->type == 'sales')

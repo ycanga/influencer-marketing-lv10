@@ -22,8 +22,18 @@
                                         <input type="text" class="form-control" id="name" disabled>
                                     </div>
                                     <div class="form-group mb-3">
+                                        <label for="name">Kampanya Kategorisi</label>
+                                        <select class="form-select" aria-label="Default select example" required
+                                            name="category_id" disabled>
+                                            <option value="" selected>Seçiniz...</option>
+                                            @foreach ($campaignCategories as $category)
+                                                <option value="{{ $category->id }}">{{ ucfirst($category->name) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label for="desc">Kampanya Açıklaması</label>
-                                        {{-- <input type="text" class="form-control" id="desc" disabled> --}}
                                         <textarea id="desc" cols="30" rows="5" class="form-control" disabled></textarea>
                                     </div>
                                     <div class="form-group mb-3">
@@ -107,6 +117,7 @@
         var action = $(this).data('item').ibm ?? '-';
         var time = $(this).data('item').time ?? 'Süresiz';
         var visitLink = document.getElementById('visitLink');
+        var category = $(this).data('item').category_id;
 
 
         if (status == 'active') {
@@ -127,5 +138,6 @@
         $("#ibm").html(action + " ₺");
         $("#time").val(time);
         visitLink.href = link;
+        $("select[name='category_id']").val(category);
     })
 </script>

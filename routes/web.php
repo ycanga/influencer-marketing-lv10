@@ -72,6 +72,7 @@ Route::middleware(['auth', 'role.control'])->group(function () {
     Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings.index');
     Route::post('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'store'])->name('admin.settings.store');
     Route::post('/settings/pos', [App\Http\Controllers\Admin\SettingsController::class, 'pos'])->name('admin.settings.pos');
+    Route::get('/campaign-categories', [App\Http\Controllers\Admin\CampaignSettingsController::class, 'index'])->name('admin.categories.settings');
 
     // Users
     Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.user.index');

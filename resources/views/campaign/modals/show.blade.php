@@ -19,7 +19,19 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="name">Kampanya Adı</label>
-                                        <input type="text" class="form-control" id="name" name="name" disabled>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            disabled>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="name">Kampanya Kategorisi</label>
+                                        <select class="form-select" aria-label="Default select example" required
+                                            name="category_id" disabled>
+                                            <option value="" selected>Seçiniz...</option>
+                                            @foreach ($campaignCategories as $category)
+                                                <option value="{{ $category->id }}">{{ ucfirst($category->name) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="desc">Kampanya Açıklaması</label>
@@ -29,8 +41,9 @@
                                         <label for="link">Kampanya Bağlantısı</label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="link" disabled
-                                                placeholder="Kampanya bağlantısı..."/>
-                                            <a href="#" class="btn btn-outline-primary" id="visitLink" target="_blank">Ziyaret Et</a>
+                                                placeholder="Kampanya bağlantısı..." />
+                                            <a href="#" class="btn btn-outline-primary" id="visitLink"
+                                                target="_blank">Ziyaret Et</a>
                                         </div>
                                     </div>
                                     <div class="form-group mb-3">
@@ -106,6 +119,7 @@
         var time = $(this).data('item').time ?? 'Süresiz';
         var visitLink = document.getElementById('visitLink');
         var merchant = $(this).data('item').merchant.name;
+        var category = $(this).data('item').category_id;
 
         console.log(merchant);
 
@@ -121,12 +135,12 @@
         $("#date").val(date);
         $("#name").val(name);
         $("#link").val(link);
-        $("#sbm").html("%"+sale);
-        $("#tbm").html(click+" ₺");
+        $("#sbm").html("%" + sale);
+        $("#tbm").html(click + " ₺");
         $("#ibm").html(action + " ₺");
         $("#time").val(time);
         visitLink.href = link;
         $("#merchant").val(merchant);
+        $("select[name='category_id']").val(category);
     })
 </script>
-

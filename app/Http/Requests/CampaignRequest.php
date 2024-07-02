@@ -26,6 +26,7 @@ class CampaignRequest extends FormRequest
             'name' => 'required|string',
             'link' => 'required|string',
             'type' => 'required|string',
+            'category_id' => 'nullable|integer',
         ];
     }
 
@@ -41,6 +42,7 @@ class CampaignRequest extends FormRequest
             'link.string' => 'Link bir metin olmalıdır.',
             'type.required' => 'Tip zorunludur.',
             'type.string' => 'Tip bir metin olmalıdır.',
+            'category_id.integer' => 'Kategori bir sayı olmalıdır.',
         ];
     }
 

@@ -22,6 +22,18 @@
                                                 placeholder="Kampanya adını giriniz..." required>
                                         </div>
                                         <div class="form-group mb-3">
+                                            <label for="name">Kampanya Kategorisi <b
+                                                    class="text-danger">*</b></label>
+                                            <select class="form-select" aria-label="Default select example" required
+                                                name="category_id">
+                                                <option value="" selected>Seçiniz...</option>
+                                                @foreach ($campaignCategories as $category)
+                                                    <option value="{{ $category->id }}">{{ ucfirst($category->name) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label for="desc">Kampanya Açıklaması</label>
                                             <textarea id="desc" cols="30" rows="5" class="form-control" name="desc"
                                                 placeholder="Kampanya açıklaması giriniz..."></textarea>
@@ -39,7 +51,7 @@
                                             <label for="link">Kampanya Kapak Resmi </label>
                                             <div class="input-group">
                                                 <input type="file" class="form-control" id="image" name="image"
-                                                 placeholder="Kampanya kapak resmi seçiniz..." />
+                                                    placeholder="Kampanya kapak resmi seçiniz..." />
                                             </div>
                                         </div>
                                         <div class="form-group mb-3">
@@ -64,13 +76,13 @@
                                             <div class="container mt-3">
                                                 <div class="form-group mb-3" id="sbmDiv" style="display: none;">
                                                     <label for="sbm">Satış Başına Kazanç (%) <b
-                                                        class="text-danger">*</b></label>
+                                                            class="text-danger">*</b></label>
                                                     <input type="number" class="form-control" id="sbm"
                                                         name="sbm" placeholder="Satış başına kazanç oranı (%)">
                                                 </div>
                                                 <div class="form-group mb-3" id="tbmDiv" style="display: none;">
                                                     <label for="tbm">Tıklanma Başına Kazanç (₺) <b
-                                                        class="text-danger">*</b></label>
+                                                            class="text-danger">*</b></label>
                                                     <input type="number" class="form-control" id="tbm"
                                                         name="tbm" placeholder="Tıklanma başına kazanç oranı (₺)">
                                                     <div class="form-group mb-3 mt-3" id="multipleClick">
@@ -114,13 +126,13 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var type = document.getElementById('type');
         var campaignRevenueTable = document.getElementById('campaignRevenueTable');
         var sbmDiv = document.getElementById('sbmDiv');
         var tbmDiv = document.getElementById('tbmDiv');
 
-        type.addEventListener('change', function () {
+        type.addEventListener('change', function() {
             if (type.value == 'sales') {
                 campaignRevenueTable.style.display = 'block';
                 sbmDiv.style.display = 'block';
