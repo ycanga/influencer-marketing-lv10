@@ -50,6 +50,11 @@
                             </div>
                         @endadmin
                     @endforeach
+                    @if ($faqs->count() == 0)
+                        <div class="alert alert-danger mt-3 text-center fw-bold" role="alert">
+                            Kayıtlı soru bulunamadı. !
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

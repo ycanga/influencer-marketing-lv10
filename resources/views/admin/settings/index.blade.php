@@ -27,6 +27,11 @@
                                     placeholder="Site açıklamasını giriniz..." required>{{ $settings->site_description ?? '' }}</textarea>
                             </div>
                             <div class="form-group mt-3">
+                                <label for="site_title">Site Karşılama Mesajı</label>
+                                <input type="text" name="site_welcome_message" id="site_welcome_message" class="form-control"
+                                    value="{{ $settings->site_welcome_message ?? '' }}" placeholder="Site karşılama mesajı giriniz..." required>
+                            </div>
+                            <div class="form-group mt-3">
                                 <label for="site_keywords">Anahtar Kelimeler</label>
                                 <div id="defaultFormControlHelp" class="form-text">
                                     <b class="text-danger">**</b>

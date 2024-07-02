@@ -65,7 +65,10 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">{{$settings->site_name}} Hoş geldiniz... 👋</h4>
+                        <h4 class="mb-2">{{$settings->site_title}} </h4>
+                        <p>
+                            {{$settings->site_welcome_message}}
+                        </p>
 
                         @if (session('error'))
                             <div class="alert alert-danger">
