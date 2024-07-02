@@ -65,7 +65,7 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ asset($item->image) ?? asset('assets/img/logo.png') }}"
+                                                        <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ $item->name }}</label>
                                                         <div class="row">
@@ -135,7 +135,7 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}"
+                                                        <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ $item->name }}</label>
                                                         <div class="row">
@@ -204,7 +204,7 @@
                                                 @endphp
                                                 <div class="row card shadow p-3 mb-3">
                                                     <div class="col-12 d-flex justify-content-between align-items-center">
-                                                        <img src="{{ $item->image ?? asset('assets/img/logo.png') }}"
+                                                        <img src="{{ asset($item->image) ?? asset($settings->site_favicon) }}"
                                                             alt="{{ $item->name }}" width="35" height="35">
                                                         <label>{{ $item->name }}</label>
                                                         <div class="row">

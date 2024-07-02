@@ -21,6 +21,7 @@ class ProfileController extends Controller
 
     public function disable(Request $request)
     {
+        $request->user()->update(['status' => 'inactive']);
         $request->user()->delete();
 
         return redirect()->route('login');

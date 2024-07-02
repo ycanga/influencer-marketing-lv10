@@ -131,7 +131,15 @@
                                                     <span class="fw-semibold d-block">
                                                         {{ ucfirst(auth()->user()->name) }} </span>
                                                     <small
-                                                        class="text-muted">{{ ucfirst(auth()->user()->role) }}</small>
+                                                        class="text-muted">
+                                                        @if (auth()->user()->role == 'admin')
+                                                            Admin
+                                                        @elseif(auth()->user()->role == 'user')
+                                                            Kullanıcı
+                                                        @else
+                                                            Marka
+                                                        @endif
+                                                    </small>
                                                 </div>
                                             </div>
                                         </a>

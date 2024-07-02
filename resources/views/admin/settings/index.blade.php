@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="form-check form-switch mb-2">
-                                <input class="form-check-input" type="checkbox" id="status" name="status" @if($posSettings->status == 'active') checked @endif />
+                                <input class="form-check-input" type="checkbox" id="status" name="status" @if($posSettings && $posSettings->status == 'active') checked @endif />
                                 <label class="form-check-label" for="status"
                                   >Pasif / Aktif</label
                                 >

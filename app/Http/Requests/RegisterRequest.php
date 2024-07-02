@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|numeric|unique:users,phone|min:10',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|string'
         ];
@@ -53,8 +53,9 @@ class RegisterRequest extends FormRequest
             'role.required' => 'Role is required',
             'role.string' => 'Role must be a string',
             'phone.required' => 'Phone is required',
-            'phone.string' => 'Phone must be a string',
+            'phone.numeric' => 'Phone must be a number',
             'phone.max' => 'Phone must not be greater than 255 characters',
+            'phone.unique' => 'Phone is already taken'
         ];
     }
 

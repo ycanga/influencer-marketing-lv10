@@ -25,7 +25,13 @@ class User extends Authenticatable
         'role',
         'phone',
         'photo',
+        'status',
         'bearer_token',
+        'social_media',
+        'social_platform',
+        'tax_no',
+        'tax_office',
+        'address',
     ];
 
     /**

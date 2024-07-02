@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::where('id', '!=', auth()->user()->id)->paginate(10);
+        $users = User::withTrashed()->where('id', '!=', auth()->user()->id)->paginate(10);
         return view('admin.users.index', ['users' => $users]);
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::withTrashed()->find($id);
         if(!$user){
             return redirect()->back()->with('error', 'Kullanıcı bulunamadı.');
         }

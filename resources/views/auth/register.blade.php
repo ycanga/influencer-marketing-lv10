@@ -86,53 +86,34 @@
 
                         @endif
 
-                        <style>
-                            .toast {
-                                background-color: #d03838 !important;
-                                color: #ffff !important;
-                            }
-
-                            .toast-header {
-                                color: #ffff !important;
-                            }
-                        </style>
-                        <script>
-                            var toastLiveExample = document.getElementById('liveToastBtn')
-                            var toastLiveContainer = document.getElementById('liveToast')
-                            if (toastLiveExample) {
-                                toastLiveExample.addEventListener('click', function() {
-                                    var bsToast = new bootstrap.Toast(toastLiveContainer)
-
-                                    // Show the Toast
-                                    bsToast.show()
-                                })
-                            }
-                        </script>
-
                         <form class="mb-3 mt-3" action="{{ route('auth.register') }}" method="POST"
                             id="register-form">
                             @csrf
                             <div class="mb-3">
+
                                 <label for="role" class="form-label">Kayıt Tipi</label>
                                 <select id="role" name="role" id="role" class="form-control" required>
-                                    <option value="user" selected>Influencer</option>
-                                    <option value="merchant">Marka</option>
+                                    <option value="user" @if (old('role') == 'user') selected @endif>Influencer
+                                    </option>
+                                    <option value="merchant" @if (old('role') == 'merchant') selected @endif>Marka
+                                    </option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="username" class="form-label" id="username">Adınız ve Soyadınız</label>
-                                <input type="text" class="form-control" name="name"
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}"
                                     placeholder="Lütfen adınızı giriniz..." autofocus required />
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Email adresiniz giriniz..." />
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ old('email') }}" placeholder="Email adresiniz giriniz..." required />
                             </div>
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Telefon</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
                                     placeholder="Telefon numaranızı giriniz..." required />
+                                <div id="phoneError" class="error"></div>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="password">Şifre</label>
@@ -150,6 +131,7 @@
                                         aria-describedby="password" required />
                                 </div>
                             </div>
+                            <div id="merchantDiv"></div>
 
                             <div class="mb-3">
                                 <div class="form-check">
@@ -164,37 +146,6 @@
                             <button class="btn btn-primary d-grid w-100" id="register-button" disabled>Kayıt
                                 Ol</button>
                         </form>
-
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const form = document.getElementById('register-form');
-                                const submitButton = document.getElementById('register-button');
-                                const inputs = form.querySelectorAll('input[required], select[required]');
-                                const checkbox = document.getElementById('terms-conditions');
-
-                                function checkFormValidity() {
-                                    let allFilled = true;
-                                    inputs.forEach(input => {
-                                        if (!input.value.trim()) {
-                                            allFilled = false;
-                                        }
-                                    });
-
-                                    if (checkbox.checked && allFilled) {
-                                        submitButton.disabled = false;
-                                    } else {
-                                        submitButton.disabled = true;
-                                    }
-                                }
-
-                                inputs.forEach(input => {
-                                    input.addEventListener('input', checkFormValidity);
-                                });
-
-                                checkbox.addEventListener('change', checkFormValidity);
-                            });
-                        </script>
-
                         <p class="text-center">
                             <span>Zaten bir hesabınız var mı?</span>
                             <a href="{{ route('auth.login') }}">
@@ -230,15 +181,172 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script>
-        var role = document.getElementById('role');
+        document.addEventListener('DOMContentLoaded', function() {
+            var role = document.getElementById('role');
+            var merchantDiv = document.getElementById('merchantDiv');
+            var username = document.getElementById('username');
 
-        role.addEventListener('change', function() {
-            if (role.value === 'merchant') {
-                document.getElementById('username').innerText = 'Marka Adı';
+            if (role.value === 'user') {
+                username.textContent = 'Adınız ve Soyadınız';
+
+                createInputField('socialPlatform', 'Sosyal Medya Platformu', 'text',
+                    'Sosyal medya platformunuzu giriniz...', '{{ old('socialPlatform') }}');
+                createInputField('socialMedia', 'Kullanıcı Adınız', 'text',
+                    'Kullanıcı adınızı giriniz...', '{{ old('socialMedia') }}');
             } else {
-                document.getElementById('username').innerText = 'Adınız ve Soyadınız';
+                username.textContent = 'Marka Adı';
+                createInputField('taxNo', 'Vergi No', 'text', 'Vergi numaranızı giriniz...',
+                    '{{ old('taxNo') }}');
+                createInputField('taxOffice', 'Vergi Dairesi', 'text', 'Vergi dairesi giriniz...',
+                    '{{ old('taxOffice') }}');
+                createTextAreaField('address', 'Adres', 'Adresinizi giriniz...', '{{ old('address') }}');
+            }
+
+            role.addEventListener('change', function() {
+                merchantDiv.innerHTML = ''; // Temizle
+
+                if (role.value === 'merchant') {
+                    username.textContent = 'Marka Adı';
+
+                    createInputField('taxNo', 'Vergi No', 'text', 'Vergi numaranızı giriniz...',
+                        '{{ old('taxNo') }}');
+                    createInputField('taxOffice', 'Vergi Dairesi', 'text', 'Vergi dairesi giriniz...',
+                        '{{ old('taxOffice') }}');
+                    createTextAreaField('address', 'Adres', 'Adresinizi giriniz...',
+                        '{{ old('address') }}');
+                } else {
+                    username.textContent = 'Adınız ve Soyadınız';
+
+                    createInputField('socialPlatform', 'Sosyal Medya Platformu', 'text',
+                        'Sosyal medya platformunuzu giriniz...', '{{ old('socialPlatform') }}');
+                    createInputField('socialMedia', 'Kullanıcı Adınız', 'text',
+                        'Kullanıcı adınızı giriniz...', '{{ old('socialMedia') }}');
+                }
+            });
+
+            function createInputField(id, label, type, placeholder, value = '') {
+                var div = document.createElement('div');
+                div.className = 'mb-3';
+
+                var labelElement = document.createElement('label');
+                labelElement.setAttribute('for', id);
+                labelElement.className = 'form-label';
+                labelElement.textContent = label;
+
+                var input = document.createElement('input');
+                input.type = type;
+                input.className = 'form-control';
+                input.id = id;
+                input.name = id;
+                input.placeholder = placeholder;
+                input.required = true;
+                input.value = value;
+
+                div.appendChild(labelElement);
+                div.appendChild(input);
+                merchantDiv.appendChild(div);
+            }
+
+            function createTextAreaField(id, label, placeholder, value = '') {
+                var div = document.createElement('div');
+                div.className = 'mb-3';
+
+                var labelElement = document.createElement('label');
+                labelElement.setAttribute('for', id);
+                labelElement.className = 'form-label';
+                labelElement.textContent = label;
+
+                var textarea = document.createElement('textarea');
+                textarea.className = 'form-control';
+                textarea.id = id;
+                textarea.name = id;
+                textarea.cols = 30;
+                textarea.rows = 5;
+                textarea.placeholder = placeholder;
+                textarea.required = true;
+                textarea.value = value;
+
+                div.appendChild(labelElement);
+                div.appendChild(textarea);
+                merchantDiv.appendChild(div);
             }
         });
+    </script>
+    <style>
+        .toast {
+            background-color: #d03838 !important;
+            color: #ffff !important;
+        }
+
+        .toast-header {
+            color: #ffff !important;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+    <script>
+        var toastLiveExample = document.getElementById('liveToastBtn')
+        var toastLiveContainer = document.getElementById('liveToast')
+        if (toastLiveExample) {
+            toastLiveExample.addEventListener('click', function() {
+                var bsToast = new bootstrap.Toast(toastLiveContainer)
+
+                // Show the Toast
+                bsToast.show()
+            })
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('register-form');
+            const submitButton = document.getElementById('register-button');
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            const checkbox = document.getElementById('terms-conditions');
+
+            function checkFormValidity() {
+                let allFilled = true;
+                inputs.forEach(input => {
+
+                    if (!input.value.trim() && !validatePhoneNumber()) {
+                        allFilled = false;
+                    }
+                });
+
+                if (checkbox.checked && allFilled) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            inputs.forEach(input => {
+                console.log(input);
+                input.addEventListener('input', checkFormValidity);
+            });
+
+            checkbox.addEventListener('change', checkFormValidity);
+        });
+
+        function validatePhoneNumber() {
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            const phoneNumber = phoneInput.value;
+
+            // Türkiye telefon numarası formatı: +90 123 456 78 90 veya 0123 456 78 90
+            const phoneRegex = /^(\+90\s?)?(\d{3})\s?\d{3}\s?\d{2}\s?\d{2}$/;
+
+            if (!phoneRegex.test(phoneNumber)) {
+                phoneError.textContent = 'Lütfen geçerli bir telefon numarası giriniz.';
+                phoneInput.classList.add('is-invalid');
+                return false;
+            } else {
+                phoneError.textContent = '';
+                phoneInput.classList.remove('is-invalid');
+                return true;
+            }
+        }
     </script>
 </body>
 
