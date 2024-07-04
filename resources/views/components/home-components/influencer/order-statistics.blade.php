@@ -34,6 +34,17 @@
                                      @endif
                                  </small>
                              </div>
+                             @if ($campaign->campaigns->type == 'sales' || $campaign->campaigns->type == 'multiple')
+                                 <div class="user-progress text-center">
+                                     <small class="fw-semibold">
+                                         Toplam Satış değeri
+                                     </small>
+                                     <br>
+                                     <small class="fw-bold text-primary">
+                                         {{ $campaign->total_revenue }} ₺
+                                     </small>
+                                 </div>
+                             @endif
                              <div class="user-progress">
                                  @if ($campaign->campaigns->type == 'sales')
                                      <small class="fw-semibold">

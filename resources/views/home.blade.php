@@ -275,7 +275,6 @@
                 @admin
                     @include('components.home-components.admin.statistics')
                 @endadmin
-
                 @merchant
                     @include('components.home-components.merchant.order-statistics')
                 @endmerchant

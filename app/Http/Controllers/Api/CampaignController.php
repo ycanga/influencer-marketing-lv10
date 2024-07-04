@@ -28,6 +28,7 @@ class CampaignController extends Controller
         }
 
         $campaignUser->view_count = $campaignUser->view_count + 1;
+        $campaignUser->total_revenue = $campaignUser->total_revenue + $request->purchaseValue;
         $campaignUser->save();
 
         $campaign = Campaigns::find($request->campaignId);
