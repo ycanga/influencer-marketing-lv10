@@ -70,7 +70,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::withTrashed()->find($id);
+        $user = User::withTrashed()->with('getPaymentData')->find($id);
         if(!$user){
             return redirect()->back()->with('error', 'Kullanıcı bulunamadı.');
         }

@@ -32,7 +32,8 @@
                                         <i id="tick" class="bx bx-check-circle mb-4"
                                             style="color: green; font-size: 24px; visibility: hidden;"></i>
                                         <p class="text-muted mb-0">
-                                            Sadece <b>.png, .jpeg ya da .jpg</b> formatlarında Maksimum <b>2 MB</b> boyutunda resim yükleyebilirsiniz.
+                                            Sadece <b>.png, .jpeg ya da .jpg</b> formatlarında Maksimum <b>2 MB</b>
+                                            boyutunda resim yükleyebilirsiniz.
                                         </p>
                                     </div>
                                 </div>
@@ -113,7 +114,6 @@
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary me-2">Kaydet</button>
                                     <a href="{{ route('admin.user.index') }}" class="btn btn-secondary">Geri Dön</a>
-                                    <button type="submit" class="btn btn-danger me-2" onclick="deleteUser({{$user->id}})"><i class='bx bxs-error'></i> Kullanıcıyı Sil</button>
                                 </div>
                             </div>
                         </form>
@@ -126,6 +126,101 @@
     </div>
     <!-- Content wrapper -->
 
+    @admin
+        <div class="container">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Kullanıcının Banka Bilgileri</h5>
+                    <div>
+                        <div class="card-body row align-items-center">
+                            <div class="col-12 col-xl-6 mb-3 mb-xl-0">
+                                <label for="bankName" class="form-label">BANKA ISMı <b class="text-danger">*</b> </label>
+                                <input type="text" class="form-control" id="bankName" name="bank_name"
+                                    value="{{ $user->getPaymentData[0]->bank_name ?? '' }}"
+                                    placeholder="Banka ismini giriniz..." aria-describedby="formControlHelp1" disabled />
+                                <div id="formControlHelp1" class="form-text">
+                                    Bankanıza ait isim bilgisini giriniz.
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6">
+                                <label for="accountNumber" class="form-label">Hesap Numarası ya da IBAN <b
+                                        class="text-danger">*</b> </label>
+                                <input type="text" class="form-control" id="accountNumber" name="account_number"
+                                    value="{{ $user->getPaymentData[0]->iban ?? '' }}"
+                                    placeholder="Hesap numarasını giriniz..." aria-describedby="formControlHelp2" disabled />
+                                <div id="formControlHelp2" class="form-text">
+                                    Banka hesap numaranızı ya da IBAN numaranızı giriniz.
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6 mb-3 mb-xl-0 mt-3">
+                                <label for="accountUsername" class="form-label">Banka Hesap Sahibi Ismı <b
+                                        class="text-danger">*</b> </label>
+                                <input type="text" class="form-control" id="accountUsername" name="account_username"
+                                    value="{{ $user->getPaymentData[0]->account_username ?? '' }}"
+                                    placeholder="Banka Hesap Sahibinim ismini giriniz..." aria-describedby="formControlHelp1"
+                                    disabled />
+                                <div id="formControlHelp1" class="form-text">
+                                    Banka hesap sahibinin ismini giriniz.
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6 mt-3">
+                                <label for="desc" class="form-label">Açıklama</label>
+                                <input type="text" class="form-control" id="desc" name="desc"
+                                    placeholder="Açıklama giriniz..." value="{{ $user->getPaymentData[0]->desc ?? '' }}"
+                                    aria-describedby="formControlHelp2" disabled />
+                                <div id="formControlHelp2" class="form-text">
+                                    Ödeme ile ilgili açıklama giriniz.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endadmin
+
+    {{-- <div class="container">
+        <div class="alert alert-warning card border">
+            <h4 class="alert-heading">Dikkat!</h4>
+            <p class="mb-0">
+                Kullanıcıyı silmek istediğinizde, kullanıcıya ait tüm bilgiler ve veriler silinecektir. Bu işlem geri
+                alınamaz. Kullanıcıyı silmek istediğinizden emin misiniz?
+            </p>
+
+            <div class="form-check mt-3">
+                <button type="submit" class="btn btn-danger me-2" onclick="deleteUser({{ $user->id }})"><i
+                        class='bx bxs-error'></i> Kullanıcıyı
+                    Sil</button>
+            </div>
+        </div>
+    </div> --}}
+
+    <div class="container">
+
+        <div class="card">
+            <h5 class="card-header">Kullanıcıyı Sil</h5>
+            <div class="card-body">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading fw-bold mb-1">Kullanıcıyı silmek istediğinize emin misiniz ?
+                        </h6>
+                        <p class="mb-0">Kullanıcıyı silmek istediğinizde, kullanıcıya ait tüm bilgiler ve veriler
+                            silinecektir. Bu işlem geri
+                            alınamaz. Kullanıcıyı silmek istediğinizden emin misiniz?</p>
+                    </div>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="accountDelete" id="accountDelete" />
+                    <label class="form-check-label" for="accountDelete">
+                        Kullanıcıyı silmek istiyorum.
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-danger me-2" id="accountDeleteButton" onclick="deleteUser({{ $user->id }})" disabled><i
+                        class='bx bxs-error' ></i> Kullanıcıyı
+                    Sil</button>
+            </div>
+        </div>
+    </div>
     <script>
         var checkbox = document.getElementById('accountActivation');
         var button = document.querySelector('.deactivate-account');
@@ -158,5 +253,18 @@
                 window.location.href = url;
             }
         }
+    </script>
+
+    <script>
+        var accountDelete = document.getElementById('accountDelete');
+        var button = document.getElementById('accountDeleteButton');
+
+        accountDelete.addEventListener('change', function() {
+            if (accountDelete.checked) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        });
     </script>
 @endsection

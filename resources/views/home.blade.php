@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Home')
+@section('title', 'Anasayfa')
 
 @section('content')
     @include('layouts.alert')
